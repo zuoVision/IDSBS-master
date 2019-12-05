@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'login.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_login(object):
+    def setupUi(self, login):
+        login.setObjectName("login")
+        login.resize(416, 300)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(login.sizePolicy().hasHeightForWidth())
+        login.setSizePolicy(sizePolicy)
+        self.gridLayout_3 = QtWidgets.QGridLayout(login)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.widget = QtWidgets.QWidget(login)
+        self.widget.setObjectName("widget")
+        self.gridLayout = QtWidgets.QGridLayout(self.widget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.lab_user = QtWidgets.QLabel(self.widget)
+        self.lab_user.setObjectName("lab_user")
+        self.gridLayout.addWidget(self.lab_user, 1, 1, 1, 1)
+        self.user = QtWidgets.QLineEdit(self.widget)
+        self.user.setClearButtonEnabled(True)
+        self.user.setObjectName("user")
+        self.gridLayout.addWidget(self.user, 1, 2, 1, 3)
+        self.label = QtWidgets.QLabel(self.widget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setMinimumSize(QtCore.QSize(361, 128))
+        self.label.setMaximumSize(QtCore.QSize(361, 128))
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap(":/image/image/1200px-MySQL.svg.png"))
+        self.label.setScaledContents(True)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 6)
+        self.lab_password = QtWidgets.QLabel(self.widget)
+        self.lab_password.setObjectName("lab_password")
+        self.gridLayout.addWidget(self.lab_password, 2, 1, 1, 1)
+        self.password = QtWidgets.QLineEdit(self.widget)
+        self.password.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.password.setClearButtonEnabled(True)
+        self.password.setObjectName("password")
+        self.gridLayout.addWidget(self.password, 2, 2, 1, 3)
+        spacerItem = QtWidgets.QSpacerItem(60, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 4, 0, 1, 1)
+        self.lab_database = QtWidgets.QLabel(self.widget)
+        self.lab_database.setObjectName("lab_database")
+        self.gridLayout.addWidget(self.lab_database, 4, 1, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(60, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem1, 4, 5, 1, 1)
+        self.btn_login = QtWidgets.QPushButton(self.widget)
+        self.btn_login.setObjectName("btn_login")
+        self.gridLayout.addWidget(self.btn_login, 6, 1, 1, 4)
+        self.cbb_database = QtWidgets.QComboBox(self.widget)
+        self.cbb_database.setObjectName("cbb_database")
+        self.cbb_database.addItem("")
+        self.cbb_database.addItem("")
+        self.gridLayout.addWidget(self.cbb_database, 4, 2, 1, 3)
+        self.checkBox_autoLogin = QtWidgets.QCheckBox(self.widget)
+        self.checkBox_autoLogin.setObjectName("checkBox_autoLogin")
+        self.gridLayout.addWidget(self.checkBox_autoLogin, 5, 2, 1, 1)
+        self.checkBox_remenberPSW = QtWidgets.QCheckBox(self.widget)
+        self.checkBox_remenberPSW.setObjectName("checkBox_remenberPSW")
+        self.gridLayout.addWidget(self.checkBox_remenberPSW, 5, 3, 1, 2)
+        self.gridLayout_3.addWidget(self.widget, 0, 1, 1, 1)
+
+        self.retranslateUi(login)
+        QtCore.QMetaObject.connectSlotsByName(login)
+
+    def retranslateUi(self, login):
+        _translate = QtCore.QCoreApplication.translate
+        login.setWindowTitle(_translate("login", "登录数据库"))
+        self.lab_user.setText(_translate("login", "用户名："))
+        self.user.setText(_translate("login", "root"))
+        self.user.setPlaceholderText(_translate("login", "root"))
+        self.lab_password.setText(_translate("login", "密 码："))
+        self.password.setText(_translate("login", "123456"))
+        self.password.setPlaceholderText(_translate("login", "123456"))
+        self.lab_database.setText(_translate("login", "数据库："))
+        self.btn_login.setText(_translate("login", "登录"))
+        self.cbb_database.setItemText(0, _translate("login", "test"))
+        self.cbb_database.setItemText(1, _translate("login", "meterial"))
+        self.checkBox_autoLogin.setText(_translate("login", "自动登录"))
+        self.checkBox_remenberPSW.setText(_translate("login", "记住密码"))
+
+import resources_rc
