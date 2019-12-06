@@ -4,9 +4,28 @@ import tensorflow as tf
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing  import scale
+import pandas as pd
 
 ######## GA
-def F(x): return np.sin(10*x)*x + np.cos(2*x)*x     # to find the maximum of this function
+def fileWriter(path,var):
+    var.sort()
+    with open(path,'w+') as f:
+        f.write('Gene\tparams\tlr\tepoch\tD_SIZE\tP_SIZE\tc_rate\tm_rate\tBOUND\tMFD\tmin_loss\n')
+        for item in var:
+            for i in item:
+                f.write(str(i)+'\t')
+            f.write('\n')
+        f.close()
+    print('数据已保存至：',path)
+
+def load_csv(path):
+    df = np.array(pd.read_csv(path))
+    inputLayer = df.shape[-1]-1
+    for i in range(df.shape[1]):
+        df[:, i] = (df[:, i] - df[:, i].min()) / (df[:, i].max() - df[:, i].min())
+    x_data = df[:,:inputLayer]
+    y_data = df[:,inputLayer:]
+    return (x_data,y_data)
 
 def weight_biases(individual,net,DNA_SIZE,translate=True):
     w1 = individual[0:DNA_SIZE*(net[0]*net[1])].reshape(net[0]*net[1],DNA_SIZE)
@@ -121,7 +140,8 @@ def GA_BP(pop,x_data,y_data,lr=0.01,epoch=100,N_GENERATIONS=10):
     plt.ion()
     plt.title('pop size:%s/generations:%s/cross rate:%s/mutate rate:%s,bound:%s'%
         (POP_SIZE,N_GENERATIONS,CROSS_RATE,MUTATION_RATE,X_BOUND))
-    for i in range(N_GENERATIONS):
+    records = []
+    for i in range(1,N_GENERATIONS+1):
         F_values = []
         for individual in pop:
             params  = weight_biases(individual,net,DNA_SIZE)
@@ -132,9 +152,11 @@ def GA_BP(pop,x_data,y_data,lr=0.01,epoch=100,N_GENERATIONS=10):
         plt.scatter(i,min(F_values),c='b',alpha=0.5);plt.pause(0.05)
         F_values  = np.array(F_values)
 
-
-        print("Generation %s\nMost fitted DNA index:%s\nMin Loss:%s\n"%
-            (i+1,np.argmax(F_values),np.min(F_values)))    
+        records.append([i,n_params,lr,epoch,DNA_SIZE,POP_SIZE,CROSS_RATE,
+            MUTATION_RATE,X_BOUND,np.argmax(F_values),min(F_values)])
+        
+        print("Generation %s\tpop_shape:%s\nMost fitted DNA index:%s\nMin Loss:%s\n"%
+            (i,pop.shape,np.argmax(F_values),np.min(F_values)))    
         F_values = get_fitness(F_values)
 
         pop = select(pop, F_values)
@@ -143,21 +165,22 @@ def GA_BP(pop,x_data,y_data,lr=0.01,epoch=100,N_GENERATIONS=10):
             child = crossover(parent, pop_copy)
             child = mutate(child)
             parent[:] = child
+    fileWriter(str(N_GENERATIONS)+'-Generations Recording'+'.txt',records)
     print('Done!')
     plt.ioff()
     plt.show()
     
 ################# 参数
-net = [13,12,1]
+net = [3,9,1]
 n_params  = net[0]*net[1]+net[1]+net[1]*net[2]+net[2]
-lr =  0.01
-epoch = 100
+lr =  0.1
+epoch = 1000
 
 DNA_SIZE = 10            # DNA length
-POP_SIZE = 10           # population size
+POP_SIZE = 40           # population size
 CROSS_RATE = 0.7        # mating probability (DNA crossover)
 MUTATION_RATE = 0.01    # mutation probability
-N_GENERATIONS = 24
+N_GENERATIONS = 10
 X_BOUND = [0, 1]         # x upper and lower bounds
 
 
@@ -167,8 +190,9 @@ pop = np.random.randint(2, size=(POP_SIZE, DNA_SIZE*n_params))   # initialize th
 # print('pop shape:',pop.shape)
 
 #加载样本数据
-x_data,x_test,y_data,y_test = load_data()
-
+# x_data,x_test,y_data,y_test = load_data()
+x_data,y_data = load_csv('filling_slirry_ratio_data.csv')
+# print(x_data.shape,y_data.shape)
 
 #GA_BP
 GA_BP(pop,x_data,y_data,lr,epoch,N_GENERATIONS)
