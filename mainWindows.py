@@ -561,11 +561,14 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             labels[i][label] = 1
         return features, labels
 
-    def add_layer(self,inputs, input_size, output_size, activation_function=None):
+    def add_layer(self,inputs, w, b, activation_function=None):
+
         with tf.variable_scope("Weights"):
-            Weights = tf.Variable(tf.random_normal(shape=[input_size, output_size]), name="weights")
+            Weights = tf.Variable(w, name="weights")
+            # Weights = tf.Variable(tf.random_normal(shape=[input_size, output_size]), name="weights")
         with tf.variable_scope("biases"):
-            biases = tf.Variable(tf.zeros(shape=[1, output_size]) + 0.1, name="biases")
+            biases = tf.Variable(b, name="biases")
+            # biases = tf.Variable(tf.zeros(shape=[1, output_size]) + 0.1, name="biases")
         with tf.name_scope("Wx_plus_b"):
             Wx_plus_b = tf.add(tf.matmul(inputs, Weights), biases)
         # with tf.name_scope("dropout"):
@@ -617,20 +620,29 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="y_true")
         keep_prob_s = tf.placeholder(dtype=tf.float32)
 
+        f = open('most_fitted_weights_and_biases.txt', 'r')
+        params = eval(f.read())
+
+        # with tf.name_scope('hide_layer') as scope:
+            # hide_name = []
+            # hide_aFuncs = []
+            # h_0 = self.add_layer(xs,net[0],net[1],activation_function=aFuncs[0])
+            # hide_name.append(h_0)
+            # if len(self.hideLayers) > 0:
+            #     for i in range(1,len(self.hideLayers)+1):
+            #         hide_name.append('h_%s'%(i+1))
+            #         hide_aFuncs.append('aFuncs_%s'%(i+1))
+            #         hide_name[i] = self.add_layer(hide_name[i-1],net[i],net[i+1],activation_function=aFuncs[i])
         with tf.name_scope('hide_layer') as scope:
-            hide_name = []
-            hide_aFuncs = []
-            h_0 = self.add_layer(xs,net[0],net[1],activation_function=aFuncs[0])
-            hide_name.append(h_0)
-            if len(self.hideLayers) > 0:
-                for i in range(1,len(self.hideLayers)+1):
-                    hide_name.append('h_%s'%(i+1))
-                    hide_aFuncs.append('aFuncs_%s'%(i+1))
-                    hide_name[i] = self.add_layer(hide_name[i-1],net[i],net[i+1],activation_function=aFuncs[i])
+            h1 = self.add_layer(xs, params['w1'], params['b1'], activation_function=aFuncs[0])
+
+
 
         with tf.name_scope('pred') as scope:
             global pred
-            pred = self.add_layer(hide_name[-1], net[-2], net[-1],activation_function=aFuncs[-1])
+            pred = self.add_layer(h1, params['w2'], params['b2'],activation_function=aFuncs[-1])
+
+            # pred = self.add_layer(hide_name[-1], net[-2], net[-1],activation_function=aFuncs[-1])
 
 
         # 这里多于的操作，是为了保存pred的操作，做恢复用。我只知道这个笨方法。
@@ -684,15 +696,17 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                 X_train, y_train = shuffle(X_train, y_train)
                 feed_dict_train = {xs: X_train, ys: y_train, keep_prob_s: keep_prob}
                 feed_dict_test = {xs: X_test, keep_prob_s: keep_prob}
-                loss_value, _ = sess.run([loss, train_step], feed_dict=feed_dict_train)
-
+                loss_value, _= sess.run([loss, train_step], feed_dict=feed_dict_train)
 
                 if i % int(self.HS_LossStep.value()) == 0:
                     loss_.append(loss_value)
                     self.canvas.setData(loss_[1:])
                     self.plt1.plotItem.setTitle('Loss:%s' % loss_value)
+                    #　测　试
                     global prediction_value
                     prediction_value = sess.run(pred, feed_dict=feed_dict_test)
+
+
                     if self.cbb_lossFunc.currentIndex()==0:
                         evaluate = loss_value
                     elif self.cbb_lossFunc.currentIndex()==1:
@@ -706,7 +720,6 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                     status = '<font color=\'#FFFFFF\'> Epoch: [%.4d/%d], Loss:%g, evaluate:%.3f </font>' \
                              % (i, epoch, loss_value, evaluate)
                     self.textEdit_trainResult.append(status)
-                    # prediction_value = scaler.inverse_transform(prediction_value) #转换成与归一化前相对应的数据
                     self.pg_plot()
 
                     QApplication.processEvents()  # 实时处理
@@ -716,14 +729,10 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                     # writer.add_summary(summary=rs, global_step=i)  # 写tensorbord
                     # saver.save(sess=sess, save_path="nn_boston_model/nn_boston.model", global_step=i)  # 保存模型
 
-            # if self.cbb_aFunc_output.currentIndex() == 3:
-            #     train_acc = sess.run(accuracy, {xs: X_train, ys: y_train})
-            #     test_acc = sess.run(accuracy, {xs: X_test, ys: y_test})
-            #     self.textEdit_trainResult.append('训练精度:%s' % train_acc)
-            #     self.textEdit_trainResult.append('预测精度:%s' % test_acc)
-            #     print('训练集准确率：', train_acc)
-            #     print('测试集准确率：', test_acc)
 
+
+            print('prediction value:', prediction_value)
+            print('y test values:', y_test)
             # 提示音
             # winsound.Beep(300, 1000)
             self.textEdit_trainResult.append('<font color=\'#ffaa00\'>训练完毕！</font>')
@@ -928,7 +937,9 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                 weights2 = graph.get_tensor_by_name('pred/Weights/weights:0')
 
                 w1,w2 = sess.run((weights1,weights2))
-
+                f = open('w_b.txt','a').write(str(w1)+'\n'+ str(w2))
+                print('w1:',w1)
+                print('w2:',w2)
                 #权重系数计算
                 weight_coefficient = self.weights(np.array(w1),np.array(w2))
                 self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
