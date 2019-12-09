@@ -8,13 +8,12 @@ from login import Ui_login
 
 import pymysql
 
-# import winsound
 import os
 import sys
 import csv
 import time
 import inspect
-# from BP import *
+
 
 import tensorflow as tf
 import pandas as pd
