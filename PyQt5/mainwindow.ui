@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1075</width>
-    <height>749</height>
+    <width>1186</width>
+    <height>803</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -336,6 +336,7 @@ background-color: rgb(38, 39, 33);</string>
               <string notr="true">border-radius: 5px;
 background-color: rgb(38, 39, 33);</string>
              </property>
+             <zorder>groupBox</zorder>
             </widget>
            </item>
            <item row="0" column="1">
@@ -496,7 +497,7 @@ background-color: rgb(60, 63, 65);
 </string>
           </property>
           <layout class="QGridLayout" name="gridLayout_11">
-           <item row="8" column="1">
+           <item row="11" column="1">
             <widget class="QLineEdit" name="learningRate">
              <property name="minimumSize">
               <size>
@@ -528,56 +529,8 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="outputLayer">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>1</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" colspan="2">
+           <item row="6" column="0" colspan="2">
             <widget class="Line" name="line_2">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(236, 248, 255);</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Sunken</enum>
-             </property>
-             <property name="lineWidth">
-              <number>1</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="Line" name="line_1">
              <property name="styleSheet">
               <string notr="true">background-color: rgb(236, 248, 255);</string>
              </property>
@@ -603,7 +556,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="0">
+           <item row="12" column="0">
             <widget class="QLabel" name="lab_optimizer">
              <property name="minimumSize">
               <size>
@@ -666,7 +619,7 @@ font: 9pt &quot;微软雅黑&quot;;
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="9" column="1">
             <widget class="QComboBox" name="cbb_aFunc_output">
              <property name="minimumSize">
               <size>
@@ -717,30 +670,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </item>
             </widget>
            </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="lab_output">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>输出层：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
+           <item row="11" column="0">
             <widget class="QLabel" name="lab_learningRate">
              <property name="minimumSize">
               <size>
@@ -763,7 +693,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="0">
+           <item row="13" column="0">
             <widget class="QLabel" name="lab_lossFunc">
              <property name="minimumSize">
               <size>
@@ -786,261 +716,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QScrollArea" name="hideLayer">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>11111111</width>
-               <height>11111111</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-</string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="verticalScrollBarPolicy">
-              <enum>Qt::ScrollBarAsNeeded</enum>
-             </property>
-             <property name="horizontalScrollBarPolicy">
-              <enum>Qt::ScrollBarAlwaysOff</enum>
-             </property>
-             <property name="widgetResizable">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-             </property>
-             <widget class="QWidget" name="scrollAreaWidgetContents">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>178</width>
-                <height>118</height>
-               </rect>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_8">
-               <item row="0" column="1">
-                <widget class="QWidget" name="widget_2" native="true">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_4">
-                  <item row="0" column="0">
-                   <widget class="QLineEdit" name="hideLayer_0">
-                    <property name="minimumSize">
-                     <size>
-                      <width>80</width>
-                      <height>23</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>80</width>
-                      <height>23</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-                    </property>
-                    <property name="text">
-                     <string>10</string>
-                    </property>
-                    <property name="frame">
-                     <bool>true</bool>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                    <property name="clearButtonEnabled">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QComboBox" name="cbb_aFunc_0">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: rgb(196, 196, 195);
-font: 9pt &quot;微软雅黑&quot;;</string>
-                    </property>
-                    <property name="frame">
-                     <bool>true</bool>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>sigmoid</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>relu</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>tanh</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>softmax</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>None</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QWidget" name="widget_hideLayer" native="true">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <item>
-                  <widget class="QLabel" name="lab_hide">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-                   </property>
-                   <property name="text">
-                    <string>隐藏层：</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item row="3" column="0">
-                <layout class="QGridLayout" name="gridLayout_7">
-                 <item row="0" column="1">
-                  <widget class="QPushButton" name="btn_add">
-                   <property name="minimumSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="resources.qrc">
-                     <normaloff>:/icon/icon/icons8-plus-48.png</normaloff>:/icon/icon/icons8-plus-48.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>16</width>
-                     <height>16</height>
-                    </size>
-                   </property>
-                   <property name="autoDefault">
-                    <bool>false</bool>
-                   </property>
-                   <property name="default">
-                    <bool>false</bool>
-                   </property>
-                   <property name="flat">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QPushButton" name="btn_subtract">
-                   <property name="minimumSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="resources.qrc">
-                     <normaloff>:/icon/icon/icons8-cancel-50.png</normaloff>:/icon/icon/icons8-cancel-50.png</iconset>
-                   </property>
-                   <property name="autoDefault">
-                    <bool>false</bool>
-                   </property>
-                   <property name="default">
-                    <bool>false</bool>
-                   </property>
-                   <property name="flat">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-           <item row="16" column="1">
+           <item row="19" column="1">
             <widget class="QLineEdit" name="dropout">
              <property name="enabled">
               <bool>false</bool>
@@ -1075,7 +751,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="19" column="1">
+           <item row="22" column="1">
             <widget class="QPushButton" name="btn_startTrain">
              <property name="maximumSize">
               <size>
@@ -1110,13 +786,16 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="17" column="1">
+           <item row="20" column="1">
             <widget class="QDoubleSpinBox" name="dsb_testRate">
              <property name="frame">
               <bool>true</bool>
              </property>
              <property name="decimals">
               <number>1</number>
+             </property>
+             <property name="minimum">
+              <double>0.100000000000000</double>
              </property>
              <property name="maximum">
               <double>1.000000000000000</double>
@@ -1129,7 +808,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="1">
+           <item row="12" column="1">
             <widget class="QComboBox" name="cbb_optimizer">
              <property name="minimumSize">
               <size>
@@ -1206,7 +885,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </item>
             </widget>
            </item>
-           <item row="13" column="0">
+           <item row="16" column="0">
             <widget class="QLabel" name="lab_trainEpoch">
              <property name="minimumSize">
               <size>
@@ -1229,7 +908,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="16" column="0">
+           <item row="19" column="0">
             <widget class="QLabel" name="lab_dropout">
              <property name="minimumSize">
               <size>
@@ -1252,7 +931,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="18" column="0">
+           <item row="21" column="0">
             <widget class="QCheckBox" name="checkBox_saveModel">
              <property name="minimumSize">
               <size>
@@ -1278,7 +957,7 @@ font: 8pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="18" column="1">
+           <item row="21" column="1">
             <widget class="QCheckBox" name="checkBox_saveImg">
              <property name="minimumSize">
               <size>
@@ -1313,7 +992,7 @@ font: 8pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="17" column="0">
+           <item row="20" column="0">
             <widget class="QLabel" name="lab_dropout_2">
              <property name="minimumSize">
               <size>
@@ -1336,7 +1015,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="0" colspan="2">
+           <item row="10" column="0" colspan="2">
             <widget class="Line" name="line_3">
              <property name="styleSheet">
               <string notr="true">background-color: rgb(236, 248, 255);</string>
@@ -1352,7 +1031,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="13" column="1">
+           <item row="16" column="1">
             <widget class="QLineEdit" name="trainEpoch">
              <property name="minimumSize">
               <size>
@@ -1384,7 +1063,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="19" column="0">
+           <item row="22" column="0">
             <widget class="QPushButton" name="btn_suspend">
              <property name="maximumSize">
               <size>
@@ -1419,7 +1098,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
+           <item row="13" column="1">
             <widget class="QComboBox" name="cbb_lossFunc">
              <property name="minimumSize">
               <size>
@@ -1462,6 +1141,17 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </item>
             </widget>
            </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lab_hide">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>隐藏层：</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="0" colspan="2">
             <widget class="QWidget" name="widget" native="true">
              <property name="sizePolicy">
@@ -1475,6 +1165,9 @@ font: 9pt &quot;微软雅黑&quot;;</string>
                <widget class="QLineEdit" name="data_path">
                 <property name="placeholderText">
                  <string>读取本地数据...</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1522,10 +1215,55 @@ font: 9pt &quot;微软雅黑&quot;;</string>
                 </property>
                </widget>
               </item>
+              <item row="2" column="0">
+               <widget class="QLineEdit" name="w_b_path">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="acceptDrops">
+                 <bool>true</bool>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="frame">
+                 <bool>true</bool>
+                </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
+                <property name="placeholderText">
+                 <string>读取权值/偏置...</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="btn_load_w_b">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icon/icon/icons8-打开文件夹-48.png</normaloff>:/icon/icon/icons8-打开文件夹-48.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>24</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="17" column="0">
             <widget class="QLabel" name="lab_LossStep">
              <property name="minimumSize">
               <size>
@@ -1548,7 +1286,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
             </widget>
            </item>
-           <item row="14" column="1">
+           <item row="17" column="1">
             <widget class="QSlider" name="HS_LossStep">
              <property name="maximumSize">
               <size>
@@ -1564,6 +1302,145 @@ font: 9pt &quot;微软雅黑&quot;;</string>
              </property>
              <property name="value">
               <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QLineEdit" name="outputLayer">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>1</string>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="cbb_aFunc_0">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(196, 196, 195);
+font: 9pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <item>
+              <property name="text">
+               <string>sigmoid</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>relu</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>tanh</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>softmax</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>None</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="lab_output">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>输出层：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="hideLayer_0">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+             </property>
+             <property name="text">
+              <string>10</string>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="2">
+            <widget class="Line" name="line_1">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(236, 248, 255);</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -2000,8 +1877,8 @@ font: 9pt &quot;微软雅黑&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1075</width>
-     <height>23</height>
+     <width>1186</width>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -2244,12 +2121,8 @@ font: 9pt &quot;微软雅黑&quot;;</string>
   <tabstop>data_path</tabstop>
   <tabstop>btn_load_data</tabstop>
   <tabstop>inputLayer</tabstop>
-  <tabstop>hideLayer</tabstop>
   <tabstop>hideLayer_0</tabstop>
   <tabstop>cbb_aFunc_0</tabstop>
-  <tabstop>btn_subtract</tabstop>
-  <tabstop>btn_add</tabstop>
-  <tabstop>outputLayer</tabstop>
   <tabstop>cbb_aFunc_output</tabstop>
   <tabstop>learningRate</tabstop>
   <tabstop>cbb_optimizer</tabstop>

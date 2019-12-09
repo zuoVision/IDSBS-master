@@ -14,7 +14,7 @@ import sys
 import csv
 import time
 import inspect
-from BP import *
+# from BP import *
 
 import tensorflow as tf
 import pandas as pd
@@ -23,7 +23,8 @@ from sklearn.datasets import load_boston
 from sklearn.preprocessing import scale ,StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-from sklearn.preprocessing import LabelBinarizer
+from sklearn import preprocessing
+# from sklearn.preprocessing import LabelBinarizer, MinMaxScaler
 from sklearn.metrics import r2_score
 
 import matplotlib
@@ -96,9 +97,6 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.showMaximized()
         # 表头
         # self.table_data.horizontalHeader().setStyleSheet('color:rgb(255,0,0)')
-
-
-
         # pyqtgraph
         pg.setConfigOption('background','#262721')
         pg.setConfigOption('foreground','#f0f0f0')
@@ -114,17 +112,10 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         # plt2
         self.p2 = QGridLayout(self.widget_plot_2)
         self.plt2 = pg.PlotWidget(title='Predict VS Actual')
-        self.plt2.setLabel(axis='left', text='Springback')
+        self.plt2.setLabel(axis='left', text='Springback(%)')
         self.plt2.setLabel(axis='bottom', text='No.')
         self.plt2.showGrid(x=True, y=True, alpha=0.5)
         self.p2.addWidget(self.plt2)
-
-        # hide layer
-        self.h = 0
-        self.hideLayers = []
-        self.cbb_aFuncs = []
-        self.btn_subtract.setEnabled(False)
-        self.vLayout = QVBoxLayout(self.widget_hideLayer)
 
     def initConnect(self):
         # action
@@ -160,14 +151,12 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.data = np.array([])
         # load data
         self.btn_load_data.clicked.connect(self.on_load_data)
+        # load weight and biases
+        self.btn_load_w_b.clicked.connect(self.on_load_w_b)
         # start train
         self.btn_startTrain.clicked.connect(self.NN_parameter)
         # delete Text
         self.editDelete.triggered.connect(self.on_deleteText)
-        # add hide layer
-        self.btn_add.clicked.connect(self.on_addHideLayer)
-        # subtract hide layer
-        self.btn_subtract.clicked.connect(self.on_subtractHideLayer)
 
         # inference
         self.btn_case_search.clicked.connect(self.on_case_search)
@@ -418,34 +407,6 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         else:
             pass
 
-    def on_addHideLayer(self):
-        self.h += 1
-        # line edit
-        self.hideLayers.append("self.hideLayer_%s"%self.h)
-        self.hideLayers[-1] = QLineEdit()
-        self.hideLayers[-1].setFixedSize(80,23)
-        self.hideLayers[-1].setClearButtonEnabled(True)
-
-        # cbbox
-        self.cbb_aFuncs.append('self.cbb_aFunc_%s'%self.h)
-        self.cbb_aFuncs[-1] = QComboBox()
-        self.cbb_aFuncs[-1].setFixedSize(80,21)
-        self.cbb_aFuncs[-1].addItems(['sigmoid','relu','tanh','None'])
-
-        # layout
-        self.vLayout.addWidget(self.hideLayers[-1])
-        self.vLayout.addWidget(self.cbb_aFuncs[-1])
-
-        self.btn_subtract.setEnabled(True)
-
-    def on_subtractHideLayer(self):
-        self.hideLayers[-1].close()
-        self.hideLayers.pop(-1)
-        self.cbb_aFuncs[-1].close()
-        self.cbb_aFuncs.pop(-1)
-        if len(self.hideLayers) == 0 or len(self.cbb_aFuncs) == 0:
-            self.btn_subtract.setEnabled(False)
-
     def NN_parameter(self):
         try:
             net = []
@@ -454,21 +415,11 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             input_X = int(self.inputLayer.text())
             net.append(input_X)
 
-            # hide layer
-            h_0 = int(self.hideLayer_0.text())
-            aFunc_0 = self.cbb_aFunc_0.currentIndex()
-            net.append(h_0)
-            aFuncs.append(aFunc_0)
-
-            hide_names = []
-            hide_aFuncs = []
-            for i in range(len(self.hideLayers)):
-                hide_names.append('h_%s'%(i+1))
-                hide_aFuncs.append('aFuncs_%s'%(i+1))
-                hide_names[i] = int(self.hideLayers[i].text())
-                hide_aFuncs[i] = self.cbb_aFuncs[i].currentIndex()
-                net.append(hide_names[i])
-                aFuncs.append(hide_aFuncs[i])
+            # hide layer
+            h = int(self.hideLayer_0.text())
+            aFunc_h = self.cbb_aFunc_0.currentIndex()
+            net.append(h)
+            aFuncs.append(aFunc_h)
 
             # output layer
             y = int(self.outputLayer.text())
@@ -536,11 +487,6 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         # print('array:',df)
 
         inputLayer = df.shape[-1] - int(self.outputLayer.text())
-        if self.data_path.text().endswith('iris.csv'):
-            self.outputLayer.setText('3')
-        # 数据归一化
-        for i in range(df.shape[1]):
-            df[:, i] = (df[:, i] - df[:, i].min()) / (df[:, i].max() - df[:, i].min())
 
         self.x_data = df[:, :inputLayer]
         self.y_data = df[:, inputLayer:]
@@ -550,138 +496,127 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.textEdit_trainResult.append('samples : ' + str(df.shape[0]))
         self.inputLayer.setText(str(inputLayer))
 
+    def on_load_w_b(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, 'open file', './Weights_and_Biases/optimal_w_b', '*.txt')
+        if fileName == "":
+            return
+        self.w_b_path.setText(fileName)
+        self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>Weights and Biases Path : %s</font>'
+                                         %str(fileName))
 
-    def iris_data(self,CSV_FILE_PATH):
-        data = np.array(pd.read_csv(CSV_FILE_PATH))
-        features = data[:, 0:4]
-        rows = data.shape[0]
-        labels = np.array(np.zeros([rows, 3]))  #
-        for i in range(rows):
-            label = int(data[i][4])
-            labels[i][label] = 1
-        return features, labels
+    def random_w_b(self,net):
+        w1 = tf.Variable(tf.random_normal(shape=[net[0], net[1]]), name="weights")
+        b1 = tf.Variable(tf.zeros(shape=[1, net[1]]) + 0.1, name="biases")
+        w2 = tf.Variable(tf.random_normal([net[1], net[2]]), name="weights")
+        b2 = tf.Variable(tf.zeros(shape=[1, net[-1]]) + 0.1, name="biases")
+        params={
+            'w1':w1,
+            'w2':w2,
+            'b1':b1,
+            'b2':b2
+        }
+        return params
 
-    def add_layer(self,inputs, w, b, activation_function=None):
-
-        with tf.variable_scope("Weights"):
-            Weights = tf.Variable(w, name="weights")
-            # Weights = tf.Variable(tf.random_normal(shape=[input_size, output_size]), name="weights")
-        with tf.variable_scope("biases"):
-            biases = tf.Variable(b, name="biases")
-            # biases = tf.Variable(tf.zeros(shape=[1, output_size]) + 0.1, name="biases")
-        with tf.name_scope("Wx_plus_b"):
-            Wx_plus_b = tf.add(tf.matmul(inputs, Weights), biases)
-        # with tf.name_scope("dropout"):
-        #     Wx_plus_b = tf.nn.dropout(Wx_plus_b, keep_prob=keep_prob_s)
+    def activation(self,A,activation_function=4):
         if activation_function == 4:
-            return Wx_plus_b
+            return A
         else:
             with tf.name_scope("activation_function"):
                 if activation_function == 0:
-                    return tf.nn.sigmoid(Wx_plus_b)
+                    return tf.nn.sigmoid(A)
                 elif activation_function == 1:
-                    return tf.nn.relu(Wx_plus_b)
+                    return tf.nn.relu(A)
                 elif activation_function == 2:
-                    return tf.nn.tanh(Wx_plus_b)
+                    return tf.nn.tanh(A)
                 elif activation_function == 3:
-                    return tf.nn.softmax(Wx_plus_b)
+                    return tf.nn.softmax(A)
+
+    def optimizer(self,loss,lr,optimizer):
+        if optimizer == 0:
+            train_step = tf.train.AdamOptimizer(lr).minimize(loss)
+        elif optimizer == 1:
+            train_step = tf.train.AdagradOptimizer(lr).minimize(loss)
+        elif optimizer == 2:
+            train_step = tf.train.AdagradDAOptimizer(lr,epoch).minimize(loss)
+        elif optimizer == 3:
+            train_step = tf.train.FtrlOptimizer(lr).minimize(loss)
+        elif optimizer == 4:
+            train_step = tf.train.GradientDescentOptimizer(lr).minimize(loss)
+        elif optimizer == 5:
+            train_step = tf.train.MomentumOptimizer(lr, 0.9).minimize(loss)
+        elif optimizer == 6:
+            train_step = tf.train.ProximalAdagradOptimizer(lr).minimize(loss)
+        elif optimizer == 7:
+            train_step = tf.train.ProximalGradientDescentOptimizer(lr).minimize(loss)
+        elif optimizer == 8:
+            train_step = tf.train.RMSPropOptimizer(lr).minimize(loss)
+        return train_step
+
+
+
+
 
     def fit(self, net, lr=0.01, aFuncs=None, optimizer=0, epoch=1000, lossFunc=0, keep_prob=1):
         #加载数据
         # boston = load_boston()
         global y_test
-        if self.data_path.text().endswith('iris.csv'):
 
-            csv_file = './data/iris.csv'
-            self.x_data,self.y_data = self.iris_data(csv_file)
-            X_train,X_test,y_train,y_test = train_test_split(self.x_data,self.y_data,test_size=0.3,random_state=0)
+        test_rate = float(self.dsb_testRate.text())
+        X_train,X_test,y_train,y_test = train_test_split(self.x_data,self.y_data,test_size=test_rate,random_state=0)
+        # 归一化 [0,1]
+        scaler_X_train = preprocessing.MinMaxScaler()
+        X_train = scaler_X_train.fit_transform(X_train)
+        scaler_X_test = preprocessing.MinMaxScaler()
+        X_test = scaler_X_test.fit_transform(X_test)
+        scaler_y_train = preprocessing.MinMaxScaler()
+        y_train = scaler_y_train.fit_transform(y_train)
+        scaler_y_test = preprocessing.MinMaxScaler()
+        y_test_one = scaler_y_test.fit_transform(y_test)
+
+        # 权值　偏置
+        if self.w_b_path.text():
+            # 　读取最佳训练权值/偏置
+            w_b = open(self.w_b_path.text(),'r')
+            params = eval(w_b.read())
         else:
-            test_rate = float(self.dsb_testRate.text())
-            X_train,X_test,y_train,y_test = train_test_split(self.x_data,self.y_data,test_size=test_rate,random_state=0)
-            X_train = scale(X_train)
-            X_test = scale(X_test)
-            y_train = scale(y_train)
-            y_test = scale(y_test)
-            # scaler = StandardScaler() #数据标准化
-            # X_train = scaler.fit_transform(X_train)
-            # X_test = scaler.fit_transform(X_test)
-            # # print('pre_scale y_train:',y_test)
-            # y_train = scaler.fit_transform(y_train.reshape((-1,int(self.outputLayer.text()))))
-            # y_test = scaler.fit_transform(y_test.reshape((-1,int(self.outputLayer.text()))))
-            # y_test_origin = scaler.inverse_transform(y_test) #还原原始数据
-            # print('scale y_train:',y_test)
-
-
-
+            params = self.random_w_b(net)
 
         # model-神经网络结构
-        global xs
-        xs = tf.placeholder(shape=[None, net[0]], dtype=tf.float32, name="inputs")
-        ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="y_true")
+        with tf.name_scope('input_layer') as scope:
+            global xs
+            xs = tf.placeholder(shape=[None, net[0]], dtype=tf.float32, name="inputs")
+            ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="y_true")
+
         keep_prob_s = tf.placeholder(dtype=tf.float32)
 
-        f = open('most_fitted_weights_and_biases.txt', 'r')
-        params = eval(f.read())
+        with tf.name_scope('weights1') as scope:
+            w1 = tf.Variable(params['w1'],dtype=tf.float32)
 
-        # with tf.name_scope('hide_layer') as scope:
-            # hide_name = []
-            # hide_aFuncs = []
-            # h_0 = self.add_layer(xs,net[0],net[1],activation_function=aFuncs[0])
-            # hide_name.append(h_0)
-            # if len(self.hideLayers) > 0:
-            #     for i in range(1,len(self.hideLayers)+1):
-            #         hide_name.append('h_%s'%(i+1))
-            #         hide_aFuncs.append('aFuncs_%s'%(i+1))
-            #         hide_name[i] = self.add_layer(hide_name[i-1],net[i],net[i+1],activation_function=aFuncs[i])
+        with tf.name_scope('biases1') as scope:
+            b1 = tf.Variable(params['b1'],dtype=tf.float32)
+
+        with tf.name_scope('weights2') as scope:
+            w2 = tf.Variable(params['w2'],dtype=tf.float32)
+
+        with tf.name_scope('biases2') as scope:
+            b2 = tf.Variable(params['b2'],dtype=tf.float32)
+
         with tf.name_scope('hide_layer') as scope:
-            h1 = self.add_layer(xs, params['w1'], params['b1'], activation_function=aFuncs[0])
-
-
+            h1 = self.activation(tf.matmul(xs, w1) + b1,activation_function=aFuncs[0])
 
         with tf.name_scope('pred') as scope:
             global pred
-            pred = self.add_layer(h1, params['w2'], params['b2'],activation_function=aFuncs[-1])
-
-            # pred = self.add_layer(hide_name[-1], net[-2], net[-1],activation_function=aFuncs[-1])
-
-
-        # 这里多于的操作，是为了保存pred的操作，做恢复用。我只知道这个笨方法。
-        # pred = tf.add(pred,0,name='pred')
+            pred = self.activation(tf.matmul(h1, w2) + b2,activation_function=aFuncs[-1])
 
         with tf.name_scope("loss") as scope:
             loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - pred), reduction_indices=[1]))  # L2/mse均方误差
             tf.summary.scalar("loss", tensor=loss)
 
-
         with tf.name_scope('train_step') as scope:
-            if optimizer == 0:
-                train_step = tf.train.AdamOptimizer(lr).minimize(loss)
-            elif optimizer == 1:
-                train_step = tf.train.AdagradOptimizer(lr).minimize(loss)
-            # elif optimizer == 2:
-            #     train_step = tf.train.AdagradDAOptimizer(lr,epoch).minimize(loss)
-            elif optimizer == 3:
-                train_step = tf.train.FtrlOptimizer(lr).minimize(loss)
-            elif optimizer == 4:
-                train_step = tf.train.GradientDescentOptimizer(lr).minimize(loss)
-            elif optimizer == 5:
-                train_step = tf.train.MomentumOptimizer(lr,0.9).minimize(loss)
-            elif optimizer == 6:
-                train_step = tf.train.ProximalAdagradOptimizer(lr).minimize(loss)
-            elif optimizer == 7:
-                train_step = tf.train.ProximalGradientDescentOptimizer(lr).minimize(loss)
-            elif optimizer == 8:
-                train_step = tf.train.RMSPropOptimizer(lr).minimize(loss)
-
-        access = tf.equal(tf.argmax(pred,1),tf.argmax(ys,1))
-        accuracy = tf.reduce_mean(tf.cast(access,'float'))
-
-
+            train_step = self.optimizer(loss,lr,optimizer)
 
         # trian
         init = tf.global_variables_initializer()  #初始化
-
-
         with tf.Session() as sess:
             saver = tf.train.Saver(tf.global_variables(), max_to_keep=15)
             merged = tf.summary.merge_all()
@@ -692,31 +627,33 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                 self.lcd_epoch.display(i)
                 QApplication.processEvents()  # 实时处理
                 time.sleep(0.01)  # 延迟
-                # # shuffle
-                X_train, y_train = shuffle(X_train, y_train)
+
                 feed_dict_train = {xs: X_train, ys: y_train, keep_prob_s: keep_prob}
                 feed_dict_test = {xs: X_test, keep_prob_s: keep_prob}
-                loss_value, _= sess.run([loss, train_step], feed_dict=feed_dict_train)
+                loss_value, _, weight1,weight2= sess.run([loss, train_step,w1,w2], feed_dict=feed_dict_train)
 
                 if i % int(self.HS_LossStep.value()) == 0:
                     loss_.append(loss_value)
                     self.canvas.setData(loss_[1:])
                     self.plt1.plotItem.setTitle('Loss:%s' % loss_value)
                     #　测　试
-                    global prediction_value
                     prediction_value = sess.run(pred, feed_dict=feed_dict_test)
 
+                    global real_pre
+                    real_pre = scaler_y_test.inverse_transform(prediction_value)
 
-                    if self.cbb_lossFunc.currentIndex()==0:
+                    # 评价
+                    if self.cbb_lossFunc.currentIndex() == 0:
                         evaluate = loss_value
-                    elif self.cbb_lossFunc.currentIndex()==1:
-                        evaluate = loss_value**0.5
-                    elif self.cbb_lossFunc.currentIndex()==2:
-                        evaluate = np.sum(np.absolute(prediction_value-y_test))/len(y_test)
-                    elif self.cbb_lossFunc.currentIndex()==3:
+                    elif self.cbb_lossFunc.currentIndex() == 1:
+                        evaluate = loss_value ** 0.5
+                    elif self.cbb_lossFunc.currentIndex() == 2:
+                        evaluate = np.sum(np.absolute(prediction_value - y_test)) / len(y_test)
+                    elif self.cbb_lossFunc.currentIndex() == 3:
                         evaluate = r2_score(y_test, prediction_value)
                     else:
                         evaluate = None
+
                     status = '<font color=\'#FFFFFF\'> Epoch: [%.4d/%d], Loss:%g, evaluate:%.3f </font>' \
                              % (i, epoch, loss_value, evaluate)
                     self.textEdit_trainResult.append(status)
@@ -724,17 +661,19 @@ class mainwindow(QMainWindow,Ui_MainWindow):
 
                     QApplication.processEvents()  # 实时处理
                     time.sleep(0.01)
+            # 输出最后一次训练完成后的测试值
+            # print('real pred:',type(real_pre))
+            # print('y test:',type(y_test))
+            #　计算平均绝对误差
+            # print(((abs(real_pre-y_test)/y_test)).mean())
+            # 保存最后一次训练的权重
+            global weight_record
+            weight_record = 'Weights_and_Biases/train_w_b/No_'+str(epoch)+'_train_weights.txt'
+            weights = {'w1':weight1.tolist(),'w2':weight2.tolist()} #将np.array格式的w1 w2转换为list
 
-                    # rs = sess.run(merged,feed_dict=feed_dict_train)
-                    # writer.add_summary(summary=rs, global_step=i)  # 写tensorbord
-                    # saver.save(sess=sess, save_path="nn_boston_model/nn_boston.model", global_step=i)  # 保存模型
-
-
-
-            print('prediction value:', prediction_value)
-            print('y test values:', y_test)
-            # 提示音
-            # winsound.Beep(300, 1000)
+            f = open(weight_record,'w')
+            f.write(str(weights))
+            f.close()
             self.textEdit_trainResult.append('<font color=\'#ffaa00\'>训练完毕！</font>')
             # 保存模型
             if self.checkBox_saveModel.isEnabled():
@@ -751,13 +690,13 @@ class mainwindow(QMainWindow,Ui_MainWindow):
 
 
     def pg_plot(self):
-        global y_test,prediction_value
+        global y_test,real_pre
         # self.plt2.plotItem.setTitle()
         self.plt2.addLegend(size=(80, 50), offset=(-30, 30))
         # self.plt2.plot(prediction_value[:,0],pen='r',symbol='star', symbolBrush=(237,177,32),name='pred',clear=True)
         # self.plt2.plot(y_test[:,0],pen='g',symbol='h',symbolBrush=(217,83,25),name='real')
 
-        self.plt2.plot(prediction_value[:, 0], pen='g',  name='pred', clear=True)
+        self.plt2.plot(real_pre[:, 0], pen='g',  name='pred', clear=True)
         self.plt2.plot(y_test[:, 0],pen=None,symbol='star',symbolBrush=(0,0,255),name='real')
 
 
@@ -920,52 +859,36 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             QMessageBox.critical(self,'错误','%s'%e)
 
     def on_NN_Weights(self):
-        try:
-            checkpoint_dir = './model/'
-            # init = tf.global_variables_initializer() #加载已有模型不需要init
-            with tf.Session(graph=tf.Graph()) as sess: # 在新的graph上run,避免和train的graph弄混
-                # sess.run(init)
-                model_file = tf.train.latest_checkpoint(checkpoint_dir)
-                # 加载网络
-                saver = tf.train.import_meta_graph(model_file + '.meta')
-                # 加载参数
-                saver.restore(sess, model_file)
+        # try:
+        global weight_record
+        weights = eval(open(weight_record,'r').read())
+        w1 = weights['w1']
+        w2 = weights['w2']
+        #权重系数计算
+        weight_coefficient = self.weights(np.array(w1),np.array(w2))
 
-                graph = tf.get_default_graph()
+        self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+        self.textEdit_inference.append('<font color=\'#000000\'>权重系数：%s</font>' % weight_coefficient)
+        ##权重系数直方图
+        # weight_coefficient.sort()
+        # 读取表头
+        df = pd.read_csv(str(self.data_path.text()))
+        label = []
+        for i,v in enumerate(df.columns):
+            label.append(v)
+        label = label[:int(self.inputLayer.text())]
 
-                weights1 = graph.get_tensor_by_name('hide_layer/Weights/weights:0')
-                weights2 = graph.get_tensor_by_name('pred/Weights/weights:0')
+        weight_sequence = list(np.argsort(weight_coefficient))
+        label_sequence = []
+        for index,value in enumerate(weight_sequence):
+            label_sequence.append(label[value])
+        weight_coefficient.sort()
+        plt.barh(label_sequence,weight_coefficient)
+        plt.show()
 
-                w1,w2 = sess.run((weights1,weights2))
-                f = open('w_b.txt','a').write(str(w1)+'\n'+ str(w2))
-                print('w1:',w1)
-                print('w2:',w2)
-                #权重系数计算
-                weight_coefficient = self.weights(np.array(w1),np.array(w2))
-                self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-                self.textEdit_inference.append('<font color=\'#000000\'>权重系数：%s</font>' % weight_coefficient)
-                ##权重系数直方图
-                # weight_coefficient.sort()
-                # 读取表头
-                df = pd.read_csv(str(self.data_path.text()))
-                label = []
-                for i,v in enumerate(df.columns):
-                    label.append(v)
-                label = label[:int(self.inputLayer.text())]
-                # print(label)
-                # label = ['Length', 'ASR', 'radius', 'line1', 'line2', 'line3', 'line5', 'angle1', 'angle2', 'angle3',
-                #           'angle4', 'corner3', 'corner4']
-                weight_sequence = list(np.argsort(weight_coefficient))
-                label_sequence = []
-                for index,value in enumerate(weight_sequence):
-                    label_sequence.append(label[value])
-                weight_coefficient.sort()
-                plt.barh(label_sequence,weight_coefficient)
-                plt.show()
-
-        except Exception as e:
-            self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
-            QMessageBox.critical(self, '错误', '%s' % e)
+        # except Exception as e:
+        #     self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
+        #     QMessageBox.critical(self, '错误', '%s' % e)
 
 
 if __name__ == '__main__':
