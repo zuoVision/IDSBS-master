@@ -285,7 +285,7 @@
         <string>智能学习</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="2">
+        <item row="0" column="1">
          <widget class="QFrame" name="frame_trainProcess">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -336,7 +336,7 @@ background-color: rgb(38, 39, 33);</string>
               <string notr="true">border-radius: 5px;
 background-color: rgb(38, 39, 33);</string>
              </property>
-             <zorder>groupBox</zorder>
+             <zorder>toolBox</zorder>
             </widget>
            </item>
            <item row="0" column="1">
@@ -431,7 +431,7 @@ font: 75 10pt &quot;微软雅黑&quot;;</string>
           </layout>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="1" column="1">
          <widget class="QTextEdit" name="textEdit_trainResult">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -473,7 +473,7 @@ background-color: rgb(60, 63, 65);
          </widget>
         </item>
         <item row="0" column="0" rowspan="2">
-         <widget class="QGroupBox" name="groupBox">
+         <widget class="QToolBox" name="toolBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -496,958 +496,1302 @@ background-color: rgb(60, 63, 65);
            <string notr="true">background-color: rgb(201, 201, 200);
 </string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_11">
-           <item row="11" column="1">
-            <widget class="QLineEdit" name="learningRate">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
+          <widget class="QWidget" name="BP" native="true">
+           <attribute name="label">
+            <string/>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="26" column="1">
+             <widget class="QPushButton" name="btn_startTrain">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(240, 240, 240);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-play-48.png</normaloff>:/icon/icon/icons8-play-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="lab_input">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
 font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>0.01</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0" colspan="2">
-            <widget class="Line" name="line_2">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(236, 248, 255);</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Sunken</enum>
-             </property>
-             <property name="lineWidth">
-              <number>1</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lab_input">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
+              </property>
+              <property name="text">
+               <string>输入层：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="26" column="0">
+             <widget class="QPushButton" name="btn_suspend">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(240, 240, 240);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-stop-48.png</normaloff>:/icon/icon/icons8-stop-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="25" column="1">
+             <widget class="QCheckBox" name="checkBox_saveImg">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>微软雅黑</family>
+                <pointsize>8</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 8pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>保存图片</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="25" column="0">
+             <widget class="QCheckBox" name="checkBox_saveModel">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 8pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>保存模型</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="24" column="1">
+             <widget class="QDoubleSpinBox" name="dsb_testRate">
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="minimum">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.100000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="24" column="0">
+             <widget class="QLabel" name="lab_dropout_2">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
 font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>输入层：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="0">
-            <widget class="QLabel" name="lab_optimizer">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
+              </property>
+              <property name="text">
+               <string>test rate：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="23" column="1">
+             <widget class="QLineEdit" name="dropout">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
 font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>优化器：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="inputLayer">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
+              </property>
+              <property name="text">
+               <string>1</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="23" column="0">
+             <widget class="QLabel" name="lab_dropout">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Dropout：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="21" column="1">
+             <widget class="QSlider" name="HS_LossStep">
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="21" column="0">
+             <widget class="QLabel" name="lab_LossStep">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>显示步长：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="20" column="1">
+             <widget class="QLineEdit" name="trainEpoch">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>1000</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="20" column="0">
+             <widget class="QLabel" name="lab_trainEpoch">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>训练周期：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QComboBox" name="cbb_aFunc_0">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(196, 196, 195);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>sigmoid</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>relu</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>tanh</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>softmax</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>None</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="15" column="1">
+             <widget class="QLineEdit" name="learningRate">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>0.01</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="0">
+             <widget class="QLabel" name="lab_output">
+              <property name="minimumSize">
+               <size>
+                <width>60</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>输出层：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="14" column="0" colspan="2">
+             <widget class="Line" name="line_3">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(236, 248, 255);</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <widget class="QLineEdit" name="outputLayer">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>1</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="hideLayer_0">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>10</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="Line" name="line_7">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(236, 248, 255);</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLineEdit" name="w_b_path">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="acceptDrops">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>读取权值/偏置...</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="1">
+             <widget class="QComboBox" name="cbb_aFunc_output">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(196, 196, 195);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="currentIndex">
+               <number>4</number>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>sigmoid</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>relu</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>tanh</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>softmax</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>None</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="inputLayer">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
 
 font: 9pt &quot;微软雅黑&quot;;
 </string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="echoMode">
-              <enum>QLineEdit::Normal</enum>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="1">
-            <widget class="QComboBox" name="cbb_aFunc_output">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(196, 196, 195);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="currentIndex">
-              <number>4</number>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string>sigmoid</string>
               </property>
-             </item>
-             <item>
               <property name="text">
-               <string>relu</string>
+               <string/>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>tanh</string>
+              <property name="frame">
+               <bool>true</bool>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>softmax</string>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>None</string>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
-             </item>
-            </widget>
-           </item>
-           <item row="11" column="0">
-            <widget class="QLabel" name="lab_learningRate">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>学习率：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="13" column="0">
-            <widget class="QLabel" name="lab_lossFunc">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>评价指标：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="1">
-            <widget class="QLineEdit" name="dropout">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>1</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="1">
-            <widget class="QPushButton" name="btn_startTrain">
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(240, 240, 240);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/icon/icon/icons8-play-48.png</normaloff>:/icon/icon/icons8-play-48.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>35</width>
-               <height>35</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="default">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="20" column="1">
-            <widget class="QDoubleSpinBox" name="dsb_testRate">
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="decimals">
-              <number>1</number>
-             </property>
-             <property name="minimum">
-              <double>0.100000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>1.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-             <property name="value">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="1">
-            <widget class="QComboBox" name="cbb_optimizer">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>21</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>21</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(196, 196, 195);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <property name="minimumContentsLength">
-              <number>0</number>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="modelColumn">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>AdamOptimizer</string>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>AdagradOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>AdagradDAOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>FtrlOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>GradientDescentOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>MomentumOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>ProximalAdagradOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>ProximalGradientDescentOptimizer</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RMSPropOptimizer</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="16" column="0">
-            <widget class="QLabel" name="lab_trainEpoch">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>训练周期：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="0">
-            <widget class="QLabel" name="lab_dropout">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>Dropout：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="21" column="0">
-            <widget class="QCheckBox" name="checkBox_saveModel">
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>70</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 8pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>保存模型</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="21" column="1">
-            <widget class="QCheckBox" name="checkBox_saveImg">
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>70</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>微软雅黑</family>
-               <pointsize>8</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 8pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>保存图片</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="20" column="0">
-            <widget class="QLabel" name="lab_dropout_2">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>test rate：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0" colspan="2">
-            <widget class="Line" name="line_3">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(236, 248, 255);</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Sunken</enum>
-             </property>
-             <property name="lineWidth">
-              <number>1</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="16" column="1">
-            <widget class="QLineEdit" name="trainEpoch">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>1000</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="0">
-            <widget class="QPushButton" name="btn_suspend">
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(240, 240, 240);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/icon/icon/icons8-stop-48.png</normaloff>:/icon/icon/icons8-stop-48.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>35</width>
-               <height>35</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="default">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="13" column="1">
-            <widget class="QComboBox" name="cbb_lossFunc">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>21</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>21</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(196, 196, 195);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string>MSE</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RMSE</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>MAE</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>R-squared</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="lab_hide">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>隐藏层：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QWidget" name="widget" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_6">
-              <item row="1" column="0">
-               <widget class="QLineEdit" name="data_path">
-                <property name="placeholderText">
-                 <string>读取本地数据...</string>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="2">
+             <widget class="QComboBox" name="cbb_database_BP">
+              <item>
+               <property name="text">
+                <string>请选择数据库</string>
+               </property>
               </item>
-              <item row="0" column="0" colspan="2">
-               <widget class="QComboBox" name="comboBox_2">
-                <item>
-                 <property name="text">
-                  <string>请选择数据库</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>material</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>structure</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>technology</string>
-                 </property>
-                </item>
-               </widget>
+              <item>
+               <property name="text">
+                <string>material</string>
+               </property>
               </item>
-              <item row="1" column="1">
-               <widget class="QPushButton" name="btn_load_data">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icon/icon/icons8-打开文件夹-48.png</normaloff>:/icon/icon/icons8-打开文件夹-48.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>24</width>
-                  <height>24</height>
-                 </size>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
-                </property>
-               </widget>
+              <item>
+               <property name="text">
+                <string>structure</string>
+               </property>
               </item>
-              <item row="2" column="0">
-               <widget class="QLineEdit" name="w_b_path">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="acceptDrops">
-                 <bool>true</bool>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="readOnly">
-                 <bool>false</bool>
-                </property>
-                <property name="placeholderText">
-                 <string>读取权值/偏置...</string>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
+              <item>
+               <property name="text">
+                <string>technology</string>
+               </property>
               </item>
-              <item row="2" column="1">
-               <widget class="QPushButton" name="btn_load_w_b">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icon/icon/icons8-打开文件夹-48.png</normaloff>:/icon/icon/icons8-打开文件夹-48.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>24</width>
-                  <height>24</height>
-                 </size>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
-                </property>
-               </widget>
+             </widget>
+            </item>
+            <item row="15" column="0">
+             <widget class="QLabel" name="lab_learningRate">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>学习率：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0" colspan="2">
+             <widget class="Line" name="line_1">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(236, 248, 255);</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="17" column="1">
+             <widget class="QComboBox" name="cbb_lossFunc">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(196, 196, 195);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>MSE</string>
+               </property>
               </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="17" column="0">
-            <widget class="QLabel" name="lab_LossStep">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>显示步长：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="17" column="1">
-            <widget class="QSlider" name="HS_LossStep">
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QLineEdit" name="outputLayer">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>1</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QComboBox" name="cbb_aFunc_0">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(196, 196, 195);
-font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string>sigmoid</string>
+              <item>
+               <property name="text">
+                <string>RMSE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MAE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>R-squared</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="btn_load_w_b">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-             </item>
-             <item>
               <property name="text">
-               <string>relu</string>
+               <string/>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>tanh</string>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-打开文件夹-48.png</normaloff>:/icon/icon/icons8-打开文件夹-48.png</iconset>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>softmax</string>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>None</string>
+              <property name="flat">
+               <bool>true</bool>
               </property>
-             </item>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="lab_output">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
+             </widget>
+            </item>
+            <item row="16" column="0">
+             <widget class="QLabel" name="lab_optimizer">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
 font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>输出层：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="hideLayer_0">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>23</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(201, 201, 200);
+              </property>
+              <property name="text">
+               <string>优化器：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLineEdit" name="data_path">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="placeholderText">
+               <string>读取本地数据...</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="17" column="0">
+             <widget class="QLabel" name="lab_lossFunc">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
 font: 9pt &quot;微软雅黑&quot;;</string>
-             </property>
-             <property name="text">
-              <string>10</string>
-             </property>
-             <property name="frame">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="Line" name="line_1">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(236, 248, 255);</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Sunken</enum>
-             </property>
-             <property name="lineWidth">
-              <number>1</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
+              </property>
+              <property name="text">
+               <string>评价指标：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0" colspan="2">
+             <widget class="Line" name="line_2">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(236, 248, 255);</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="16" column="1">
+             <widget class="QComboBox" name="cbb_optimizer">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(196, 196, 195);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <property name="minimumContentsLength">
+               <number>0</number>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="modelColumn">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>AdamOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>AdagradOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>AdagradDAOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>FtrlOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>GradientDescentOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>MomentumOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ProximalAdagradOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ProximalGradientDescentOptimizer</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>RMSPropOptimizer</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="lab_hide">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(201, 201, 200);
+font: 9pt &quot;微软雅黑&quot;;</string>
+              </property>
+              <property name="text">
+               <string>隐藏层：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="btn_load_data">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-打开文件夹-48.png</normaloff>:/icon/icon/icons8-打开文件夹-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="GA" native="true">
+           <attribute name="label">
+            <string/>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="21" column="1">
+             <widget class="QPushButton" name="btn_startTrain_GA">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(240, 240, 240);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-play-48.png</normaloff>:/icon/icon/icons8-play-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_POP_SIZE">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>2</string>
+              </property>
+              <property name="placeholderText">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="21" column="0">
+             <widget class="QPushButton" name="btn_suspend_GA">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(240, 240, 240);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-stop-48.png</normaloff>:/icon/icon/icons8-stop-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="14" column="0">
+             <widget class="QLabel" name="lab_GA_CHROM">
+              <property name="text">
+               <string>染色体：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="19" column="0">
+             <widget class="QCheckBox" name="checkBox_save_log">
+              <property name="text">
+               <string>保存数据</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="lab_GA_epoch">
+              <property name="text">
+               <string>训练周期：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="16" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_PM">
+              <property name="text">
+               <string>0.01</string>
+              </property>
+              <property name="placeholderText">
+               <string>0.0001-0.1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="16" column="0">
+             <widget class="QLabel" name="lab_GA_PM">
+              <property name="text">
+               <string>变异概率：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="0">
+             <widget class="QLabel" name="lab_GA_GEN">
+              <property name="text">
+               <string>遗传代数：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="btn_load_data_GA">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icon/icon/icons8-打开文件夹-48.png</normaloff>:/icon/icon/icons8-打开文件夹-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_PC">
+              <property name="text">
+               <string>0.7</string>
+              </property>
+              <property name="placeholderText">
+               <string>0.4-0.99</string>
+              </property>
+             </widget>
+            </item>
+            <item row="14" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_CHROM">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>10</string>
+              </property>
+              <property name="placeholderText">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="lab_GA_net">
+              <property name="text">
+               <string>网络结构：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="15" column="0">
+             <widget class="QLabel" name="lab_GA_PC">
+              <property name="text">
+               <string>交叉概率：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" colspan="2">
+             <widget class="QSpinBox" name="GA_net1">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>12</number>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1" colspan="2">
+             <widget class="QSpinBox" name="GA_net2">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QLineEdit" name="data_path_GA">
+              <property name="placeholderText">
+               <string>读取本地数据...</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="0">
+             <widget class="QLabel" name="lab_GA_POP_SIZE">
+              <property name="text">
+               <string>种群规模：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_NUM">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="placeholderText">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="3">
+             <widget class="QComboBox" name="cbb_database_GA">
+              <item>
+               <property name="text">
+                <string>请选择数据库</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>material</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>structure</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>technology</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="12" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_GEN">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>2</string>
+              </property>
+              <property name="placeholderText">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" colspan="2">
+             <widget class="QSpinBox" name="GA_net0">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>13</number>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="lab_GA_NUM">
+              <property name="text">
+               <string>优化参数：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="lab_GA_lr">
+              <property name="text">
+               <string>学习率：</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_lr">
+              <property name="text">
+               <string>0.01</string>
+              </property>
+              <property name="placeholderText">
+               <string>0.1-0.001</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1" colspan="2">
+             <widget class="QLineEdit" name="GA_epoch">
+              <property name="text">
+               <string>100</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -1831,42 +2175,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
        <attribute name="title">
         <string>知识采集</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_14">
-        <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox_5">
-          <property name="title">
-           <string>事实采集</string>
-          </property>
-          <widget class="QComboBox" name="comboBox">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>30</y>
-             <width>111</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>理论知识库</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>经验案例库</string>
-            </property>
-           </item>
-          </widget>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QGroupBox" name="groupBox_4">
-          <property name="title">
-           <string>规则采集</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <layout class="QGridLayout" name="gridLayout_14"/>
       </widget>
      </widget>
     </item>
@@ -2113,28 +2422,51 @@ font: 9pt &quot;微软雅黑&quot;;</string>
   <tabstop>btn_exit</tabstop>
   <tabstop>cbb_database</tabstop>
   <tabstop>filePath</tabstop>
+  <tabstop>btn_open</tabstop>
+  <tabstop>btn_upload</tabstop>
   <tabstop>lineEdit_search</tabstop>
   <tabstop>btn_execute</tabstop>
   <tabstop>table_data</tabstop>
   <tabstop>textEdit_database</tabstop>
-  <tabstop>comboBox_2</tabstop>
+  <tabstop>cbb_database_BP</tabstop>
   <tabstop>data_path</tabstop>
   <tabstop>btn_load_data</tabstop>
+  <tabstop>w_b_path</tabstop>
+  <tabstop>btn_load_w_b</tabstop>
   <tabstop>inputLayer</tabstop>
   <tabstop>hideLayer_0</tabstop>
   <tabstop>cbb_aFunc_0</tabstop>
+  <tabstop>outputLayer</tabstop>
   <tabstop>cbb_aFunc_output</tabstop>
   <tabstop>learningRate</tabstop>
   <tabstop>cbb_optimizer</tabstop>
   <tabstop>cbb_lossFunc</tabstop>
   <tabstop>trainEpoch</tabstop>
+  <tabstop>HS_LossStep</tabstop>
   <tabstop>dropout</tabstop>
   <tabstop>dsb_testRate</tabstop>
-  <tabstop>checkBox_saveModel</tabstop>
   <tabstop>checkBox_saveImg</tabstop>
-  <tabstop>btn_suspend</tabstop>
   <tabstop>btn_startTrain</tabstop>
+  <tabstop>checkBox_saveModel</tabstop>
+  <tabstop>btn_suspend</tabstop>
   <tabstop>textEdit_trainResult</tabstop>
+  <tabstop>cbb_database_GA</tabstop>
+  <tabstop>data_path_GA</tabstop>
+  <tabstop>btn_load_data_GA</tabstop>
+  <tabstop>GA_net0</tabstop>
+  <tabstop>GA_net1</tabstop>
+  <tabstop>GA_net2</tabstop>
+  <tabstop>GA_lr</tabstop>
+  <tabstop>GA_epoch</tabstop>
+  <tabstop>GA_NUM</tabstop>
+  <tabstop>GA_GEN</tabstop>
+  <tabstop>GA_POP_SIZE</tabstop>
+  <tabstop>GA_CHROM</tabstop>
+  <tabstop>GA_PC</tabstop>
+  <tabstop>GA_PM</tabstop>
+  <tabstop>checkBox_save_log</tabstop>
+  <tabstop>btn_suspend_GA</tabstop>
+  <tabstop>btn_startTrain_GA</tabstop>
   <tabstop>PH</tabstop>
   <tabstop>thickness</tabstop>
   <tabstop>elongation</tabstop>
@@ -2158,8 +2490,8 @@ font: 9pt &quot;微软雅黑&quot;;</string>
   <tabstop>cbb_part</tabstop>
   <tabstop>btn_case_search</tabstop>
   <tabstop>btn_inference</tabstop>
+  <tabstop>btn_weight</tabstop>
   <tabstop>textEdit_inference</tabstop>
-  <tabstop>comboBox</tabstop>
  </tabstops>
  <resources>
   <include location="resources.qrc"/>

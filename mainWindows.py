@@ -34,8 +34,7 @@ import numpy as np
 
 import pyqtgraph as pg
 
-
-
+from GA import GA
 
 class welcome(QWidget,Ui_Welcome):
     def __init__(self):
@@ -121,7 +120,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         # terminate
         self.actionexit.triggered.connect(self.on_terminate)
 
-        # data
+        ## data base
         # login
         self.btn_login.released.connect(self.on_btn_login)
         # exit
@@ -156,8 +155,13 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.btn_startTrain.clicked.connect(self.NN_parameter)
         # delete Text
         self.editDelete.triggered.connect(self.on_deleteText)
+        ## GA
+        # load GA data
+        self.btn_load_data_GA.clicked.connect(self.on_load_GA_data)
+        # GA train
+        self.btn_startTrain_GA.clicked.connect(self.on_train_GA)
 
-        # inference
+        ## inference
         self.btn_case_search.clicked.connect(self.on_case_search)
         self.btn_inference.clicked.connect(self.on_NN_Inference)
         self.btn_weight.clicked.connect(self.on_NN_Weights)
@@ -552,9 +556,6 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         return train_step
 
 
-
-
-
     def fit(self, net, lr=0.01, aFuncs=None, optimizer=0, epoch=1000, lossFunc=0, keep_prob=1):
         #加载数据
         # boston = load_boston()
@@ -675,7 +676,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             f.close()
             self.textEdit_trainResult.append('<font color=\'#ffaa00\'>训练完毕！</font>')
             # 保存模型
-            if self.checkBox_saveModel.isEnabled():
+            if self.checkBox_saveModel.isChecked():
                 # saver.save(sess=sess, save_path="./model/model.ckpt", global_step=epoch)  # 保存模型
                 saver.save(sess,'./model/model.ckpt',global_step=epoch)
                 self.textEdit_trainResult.append('<font color=\'#ffaa00\'>模型已保存！</font>')
@@ -697,6 +698,45 @@ class mainwindow(QMainWindow,Ui_MainWindow):
 
         self.plt2.plot(real_pre[:, 0], pen='g',  name='pred', clear=True)
         self.plt2.plot(y_test[:, 0],pen=None,symbol='star',symbolBrush=(0,0,255),name='real')
+
+    def on_load_GA_data(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, 'open file', './data', '*.csv')
+        if fileName == "":
+            return
+        self.data_path_GA.setText(fileName)
+        self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>File Path : %s</font>'%fileName)
+
+    def on_train_GA(self):
+        try:
+            dataPath = self.data_path_GA.text()
+            net0 = int(self.GA_net0.text())
+            net1 = int(self.GA_net1.text())
+            net2 = int(self.GA_net2.text())
+            net = [net0,net1,net2]
+            NUM = net0*net1 + net1 + net1*net2 + net2
+            GEN = int(self.GA_GEN.text())
+            POP_SIZE = int(self.GA_POP_SIZE.text())
+            CHROM = int(self.GA_CHROM.text())
+            PC = float(self.GA_PC.text())
+            PM = float(self.GA_PM.text())
+            lr = float(self.GA_lr.text())
+            epoch = int(self.GA_epoch.text())
+            save_log = self.checkBox_save_log.isChecked()
+            self.GA_NUM.setText(str(NUM))
+            info = '<font color=\'#FFFFFF\'>网络结构：%s,优化参数：%s,遗传代数：%s,' \
+                   '种群规模：%s,染色体长度：%s,交叉概率：%s,' \
+                   '变异概率：%s,学习率：%s,训练周期：%s</font>' \
+                   %(net,NUM,GEN,POP_SIZE,CHROM,PC,PM,lr,epoch)
+            self.textEdit_trainResult.append(info)
+            # GA 训练并返回权值/偏置文件保存位置
+            w_b_file,logPath= GA(dataPath,net,lr,epoch,POP_SIZE,GEN,CHROM,NUM,PC,PM,save_log)
+
+            self.textEdit_trainResult.append('<font color=\'#ffaa00\'>最优权值/偏置：：%s</font>'%w_b_file)
+            if save_log==True:
+                self.textEdit_trainResult.append('<font color=\'#ffaa00\'>详细信息请查看：%s</font>'%logPath)
+        except Exception as e:
+            self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>Error : %s</font>' % e)
+            QMessageBox.critical(self, '错误', '%s' % e)
 
 
     ####################################################
