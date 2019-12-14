@@ -162,6 +162,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.btn_startTrain_GA.clicked.connect(self.on_train_GA)
 
         ## inference
+        self.btn_browse_Search.clicked.connect(self.on_browse)
         self.btn_case_search.clicked.connect(self.on_case_search)
         self.btn_inference.clicked.connect(self.on_NN_Inference)
         self.btn_weight.clicked.connect(self.on_NN_Weights)
@@ -252,7 +253,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
 
     def on_btn_upload(self):
         self.textEdit_database.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))  # 显示时间
-        self.textEdit_database.append('<font color=\'#0000FF\'>上传成功!</font>')
+        self.textEdit_database.append('<font color=\'#0000FF\'>正在上传...</font>')
         # 清除数据库的数据
         sql = 'delete from %s'%self.database
         try:
@@ -267,7 +268,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         for i in range(row):
             items = []
             for j in range(col):
-                if self.table_data.item(i,j).text():# 判断数据是否为空
+                if self.table_data.item(i,j)!=None:# 判断数据是否为空
                     item =  self.table_data.item(i,j).text()
                     if item.isalpha() or item.isalnum():
                         items.append('"%s"'%item)
@@ -584,8 +585,8 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         # model-神经网络结构
         with tf.name_scope('input_layer') as scope:
             global xs
-            xs = tf.placeholder(shape=[None, net[0]], dtype=tf.float32, name="inputs")
-            ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="y_true")
+            xs = tf.placeholder(shape=[None, net[0]], dtype=tf.float32, name="X")
+            ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="Y")
 
         keep_prob_s = tf.placeholder(dtype=tf.float32)
 
@@ -604,7 +605,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         with tf.name_scope('hide_layer') as scope:
             h1 = self.activation(tf.matmul(xs, w1) + b1,activation_function=aFuncs[0])
 
-        with tf.name_scope('pred') as scope:
+        with tf.name_scope('OUT') as scope:
             global pred
             pred = self.activation(tf.matmul(h1, w2) + b2,activation_function=aFuncs[-1])
 
@@ -728,9 +729,10 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                    '变异概率：%s,学习率：%s,训练周期：%s</font>' \
                    %(net,NUM,GEN,POP_SIZE,CHROM,PC,PM,lr,epoch)
             self.textEdit_trainResult.append(info)
+            self.textEdit_trainResult.append('Evolving...')
             # GA 训练并返回权值/偏置文件保存位置
             w_b_file,logPath= GA(dataPath,net,lr,epoch,POP_SIZE,GEN,CHROM,NUM,PC,PM,save_log)
-
+            self.textEdit_trainResult.append('Evolved!')
             self.textEdit_trainResult.append('<font color=\'#ffaa00\'>最优权值/偏置：：%s</font>'%w_b_file)
             if save_log==True:
                 self.textEdit_trainResult.append('<font color=\'#ffaa00\'>详细信息请查看：%s</font>'%logPath)
@@ -742,20 +744,33 @@ class mainwindow(QMainWindow,Ui_MainWindow):
     ####################################################
     ################## 专 家 推 理 ######################
     ####################################################
-    def similarity(self,component_database, search_values, w):
+    def similarity(self,items, search_items,weights,interval):
         '''
         component_database:零件特征
         search_values：待匹配特征
         w：特征权重值
+        interval:特征区间　
         '''
-        l = len(component_database)
-        # 加权相似度
-        similar_value = 0
-        for i in range(l):
-            S = 1 - abs(component_database[i] - search_values[i]) / component_database[i]
-            if S >= 0:
-                similar_value += w[i] * S
-        return similar_value
+        # 　权重重新分配
+        w_new = []
+        if np.sum(weights) != 0:
+            for i in weights:
+                w_new.append(i/np.sum(weights))
+            w = np.array(w_new)
+        else:
+            return 0
+        x = np.array(items)
+        y = np.array(search_items)
+        i_ = np.array(interval)
+
+        sim = np.sum((1-(np.abs(x-y))/i_)*w)
+        return sim
+
+    def add_tablewidget(self,row,i):
+        for j in range(len(row)):
+            print(row[j])
+            self.tableWidget_output.setItem(i,j,QTableWidgetItem(str(row[j])))
+
 
     def weights(self,w1,w2):
         R = []
@@ -778,60 +793,83 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             S.append(S_ij)
         return S
 
+    def on_browse(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, 'open file', './data', '*.csv')
+        if fileName == "":
+            return
+        self.file_Search.setText(str(fileName))
+        df = pd.read_csv(str(fileName))
+        col = len(list(df)) # 表头长度
+        # 在原有表头上加一个相似度
+        output_head = list(df) #　表头名称
+        output_head.append('Similarity')
+        self.tableWidget_input.setColumnCount(col)
+        self.tableWidget_output.setColumnCount(col+1)
+        self.tableWidget_input.setHorizontalHeaderLabels(list(df))
+        self.tableWidget_output.setHorizontalHeaderLabels(output_head)
+
     def on_case_search(self):
-        # m = [720, 1.3, 924, 14, 35, 170, 103, 19.2]
-        # w = [0.1, 0.2, 0.1, 0.3, 0.1, 0.1, 0.05, 0.05]
+        # try:
+            row = self.tableWidget_input.rowCount()
+            col = self.tableWidget_input.columnCount()
+            search_params = []
+            index = []
+            for i in range(col):
+                try:
+                    item = float(self.tableWidget_input.item(0,i).text())
+                    search_params.append(item)
+                    index.append(i)
+                except:
+                    pass
 
-        self.textEdit_inference.append('<font color=\'#0000FF\'>正在检索案例···</font>')
-        QApplication.processEvents()  # 实时处理
-        time.sleep(1)  # 延迟
+            file = self.file_Search.text()
+            db = pd.read_csv(file)
+            name = list(db) # 表头名
+            global weight_coefficient
+            cnt = 0
+            sim_items = []
+            for i in range(db.shape[0]):
+                row_items = []
+                interval = []
+                w = []
+                for j in index:
+                    # 区间
+                    max_j = db.loc[:, name[j]].max()  # j列最大值
+                    min_j = db.loc[:, name[j]].min()  # j列最小值
+                    interval_j = max_j - min_j
+                    interval.append(interval_j)
+                    search_j = float(self.tableWidget_input.item(0,j).text())
+                    # 如果要检索的数值在检索的最小最大区间内,则进行正常相似度计算
+                    # 否则认为数据库中待匹配的数值等于需检索的数值（search_j - row_items = 0)
+                    # 此做法一：有利于相似度归一化，二:符合实际零件特征匹配需求
+                    if min_j < search_j and search_j <max_j:
+                        # 获取数据第i row ,j col
+                        row_items.append(list(db[name[j]])[i])
+                        # 　权重
+                        w.append(weight_coefficient[j])
+                    else:
+                        w = np.zeros(shape=len(index),dtype=float).tolist()
+                        break
+                sim = self.similarity(row_items,search_params,w,interval)
+                if sim>0.9:
+                    row_i = list(db.loc[i,:])
+                    row_i.append(round(sim*100,1))
+                    sim_items.append(row_i)
+                    cnt+=1
+            self.tableWidget_output.clearContents()
+            if cnt>5:
+                self.tableWidget_output.setRowCount(cnt)
+            else:
+                self.tableWidget_output.setRowCount(5)
+            for i in range(cnt):
+                for j in range(col+1):
+                    self.tableWidget_output.setItem(i,j,QTableWidgetItem(str(sim_items[i][j])))
+        # except Exception as e:
+        #     self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
+        #     QMessageBox.critical(self,'错误','%s'%e)
 
-        file_dir = 'data/structure.csv'
-        df = pd.read_csv(file_dir)
-        df = np.array(df.values)
-        # 特征权值
-        w = [0.1, 0.2, 0.1, 0.3, 0.1, 0.1, 0.05, 0.05]
-        m = []
-        try:
-            m.append(float(self.length.text()))
-            m.append(float(self.ASR.text()))
-            m.append(float(self.radius.text()))
-            m.append(float(self.line1.text()))
-            m.append(float(self.line3.text()))
-            m.append(float(self.angle2.text()))
-            m.append(float(self.angle4.text()))
-            m.append(float(self.springback.text()))
-        except Exception as e:
-            self.textEdit_inference.append('<font color=\'#ff0000\'>Error : Please enter the correct parameters.</font>')
-            self.textEdit_inference.append(' ')
-            QMessageBox.critical(self,'错误','请输入正确参数！！！')
-
-
-        try:
-            if len(m) == df.shape[1]:
-                max_num = 0
-                max_similar_value = 0
-                for i in range(df.shape[0]):
-                    similar_value = self.similarity(df[i, :], m, w)
-                    # print('相似零件编号：%d,相似度：%.2f%%' % (i, similar_value * 100))
-                    if similar_value > max_similar_value:
-                        max_num = i
-                        max_similar_value = similar_value
-                search_result = '最佳匹配零件：No.%d, 相似度：%.2f%%' % (max_num+1, max_similar_value * 100)
-                self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-                self.textEdit_inference.append('<font color=\'#238e23\'>%s\n</font>'%search_result)
-                self.textEdit_inference.append(' ')
-        except Exception as e:
-            self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
-            QMessageBox.critical(self,'错误','Error : %s'%e)
 
     def on_NN_Inference(self):
-        # 预测
-        # x_pred = np.array([4.61841693e-04, 0.00000000e+00, 4.20454545e-01, 0.00000000e+00,
-        #                     3.86831276e-01, 4.73079134e-01, 8.02265705e-01, 1.25071611e-01,
-        #                     0.00000000e+00, 1.64122137e-01, 8.93617021e-01, 1.00000000e+00,
-        #                     1.69701987e-01]).reshape(-1,13)
-        # y_real = 0.15333333
         try:
             # n = int(self.velocity.text())
             # # self.textEdit_inference.append('预测数据：%s'%n)
@@ -856,20 +894,16 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                 saver.restore(sess, model_file)
 
                 graph = tf.get_default_graph()
-
-                xs = graph.get_tensor_by_name('inputs:0')
-                ys = graph.get_tensor_by_name('y_true:0')
-                pred = graph.get_tensor_by_name('pred/Wx_plus_b/Add:0')
-                # weights1 = graph.get_tensor_by_name('hide_layer/Weights/weights:0')
-                # weights2 = graph.get_tensor_by_name('pred/Weights/weights:0')
-                # biases = graph.get_tensor_by_name('hide_layer/biases/biases:0')
-                # loss = graph.get_tensor_by_name('loss:0')
-                # optimizer = graph.get_tensor_by_name('train_step:0')
-
+                # 记录参数名称
+                # open('net_params.txt', 'w').write(str(graph.get_operations()))
+                # 通过参数名称获取网络参数的定义
+                xs = graph.get_tensor_by_name('input_layer/X:0')
+                ys = graph.get_tensor_by_name('input_layer/Y:0')
+                pred = graph.get_tensor_by_name('OUT/add:0')
+                # 预测
                 pred_value = sess.run(pred, feed_dict={xs:x_test})
                 # print('pre_value:',pred_value)
-                # print(graph.get_operations()) #查看参数名
-
+                # print('real y:',y_real)
 
             # 零件类型预测
             prediction = 0
@@ -898,36 +932,38 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             QMessageBox.critical(self,'错误','%s'%e)
 
     def on_NN_Weights(self):
-        # try:
-        global weight_record
-        weights = eval(open(weight_record,'r').read())
-        w1 = weights['w1']
-        w2 = weights['w2']
-        #权重系数计算
-        weight_coefficient = self.weights(np.array(w1),np.array(w2))
+        try:
+            plt.close()
+            global weight_record
+            weights = eval(open(weight_record,'r').read())
+            w1 = weights['w1']
+            w2 = weights['w2']
+            #权重系数计算
+            global weight_coefficient
+            weight_coefficient = self.weights(np.array(w1),np.array(w2))
 
-        self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-        self.textEdit_inference.append('<font color=\'#000000\'>权重系数：%s</font>' % weight_coefficient)
-        ##权重系数直方图
-        # weight_coefficient.sort()
-        # 读取表头
-        df = pd.read_csv(str(self.data_path.text()))
-        label = []
-        for i,v in enumerate(df.columns):
-            label.append(v)
-        label = label[:int(self.inputLayer.text())]
+            self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+            self.textEdit_inference.append('<font color=\'#000000\'>权重系数：%s</font>' % weight_coefficient)
+            ##权重系数直方图
+            # weight_coefficient.sort()
+            # 读取表头
+            df = pd.read_csv(str(self.data_path.text()))
+            label = []
+            for i,v in enumerate(df.columns):
+                label.append(v)
+            label = label[:int(self.inputLayer.text())]
 
-        weight_sequence = list(np.argsort(weight_coefficient))
-        label_sequence = []
-        for index,value in enumerate(weight_sequence):
-            label_sequence.append(label[value])
-        weight_coefficient.sort()
-        plt.barh(label_sequence,weight_coefficient)
-        plt.show()
+            weight_sequence = list(np.argsort(weight_coefficient))
+            label_sequence = []
+            for index,value in enumerate(weight_sequence):
+                label_sequence.append(label[value])
+            weight_coefficient.sort()
+            plt.barh(label_sequence,weight_coefficient)
+            plt.show()
 
-        # except Exception as e:
-        #     self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
-        #     QMessageBox.critical(self, '错误', '%s' % e)
+        except Exception as e:
+            self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
+            QMessageBox.critical(self, '错误', '%s' % e)
 
 
 if __name__ == '__main__':

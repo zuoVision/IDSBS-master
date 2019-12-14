@@ -24,10 +24,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="2">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -336,7 +336,6 @@ background-color: rgb(38, 39, 33);</string>
               <string notr="true">border-radius: 5px;
 background-color: rgb(38, 39, 33);</string>
              </property>
-             <zorder>toolBox</zorder>
             </widget>
            </item>
            <item row="0" column="1">
@@ -496,7 +495,15 @@ background-color: rgb(60, 63, 65);
            <string notr="true">background-color: rgb(201, 201, 200);
 </string>
           </property>
-          <widget class="QWidget" name="BP" native="true">
+          <widget class="QWidget" name="BP">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>197</width>
+             <height>587</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string/>
            </attribute>
@@ -1312,6 +1319,9 @@ font: 9pt &quot;微软雅黑&quot;;</string>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="text">
+               <string/>
+              </property>
               <property name="placeholderText">
                <string>读取本地数据...</string>
               </property>
@@ -1475,7 +1485,15 @@ font: 9pt &quot;微软雅黑&quot;;</string>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="GA" native="true">
+          <widget class="QWidget" name="GA">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>202</width>
+             <height>509</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string/>
            </attribute>
@@ -1800,159 +1818,254 @@ font: 9pt &quot;微软雅黑&quot;;</string>
        <attribute name="title">
         <string>专家推理</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_13">
-        <item row="0" column="1" rowspan="2">
-         <widget class="QGroupBox" name="gb_processPeremeter">
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="1">
+            <widget class="QComboBox" name="cbb_database_Search">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLineEdit" name="file_Search">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="lab_file_Search">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>文档：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <widget class="QPushButton" name="btn_browse_Search">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>浏览...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="lab_database_Search">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>数据库：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="title">
-           <string>工艺参数</string>
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
           </property>
-          <layout class="QGridLayout" name="gridLayout_15">
-           <item row="2" column="0">
-            <widget class="QLabel" name="lab_friction">
-             <property name="text">
-              <string>摩擦系数：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="friction"/>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="drawBead"/>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="lab_drawBead">
-             <property name="text">
-              <string>拉延筋：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="lab_velocity">
-             <property name="text">
-              <string>冲压速度：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="lab_gap">
-             <property name="text">
-              <string>模具间隙：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="pressure"/>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="gap"/>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="velocity"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lab_pressure">
-             <property name="text">
-              <string>压边力：</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
          </widget>
         </item>
-        <item row="0" column="0" rowspan="2">
-         <widget class="QGroupBox" name="gb_materialProperty">
+        <item row="1" column="0" rowspan="2">
+         <widget class="QWidget" name="widget_3" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="title">
-           <string>材料属性</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_12">
-           <item row="8" column="1">
-            <widget class="QLineEdit" name="yield_strength"/>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="lab_tensile">
-             <property name="text">
-              <string>抗拉强度：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QLabel" name="lab_yield">
-             <property name="text">
-              <string>屈服强度：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="PH"/>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="lab_n">
-             <property name="text">
-              <string>n值：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QLineEdit" name="tensile_strength"/>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="nValue"/>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="elongation"/>
-           </item>
+          <layout class="QGridLayout" name="gridLayout_13">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="lab_PH">
-             <property name="text">
-              <string>牌号：</string>
+            <widget class="QTableWidget" name="tableWidget_input">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QAbstractScrollArea::AdjustToContents</enum>
+             </property>
+             <property name="rowCount">
+              <number>1</number>
+             </property>
+             <property name="columnCount">
+              <number>14</number>
+             </property>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>65</number>
+             </attribute>
+             <attribute name="verticalHeaderCascadingSectionResizes">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>30</number>
+             </attribute>
+             <row/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="lab_elongation">
-             <property name="text">
-              <string>延伸率：</string>
+            <widget class="QTableWidget" name="tableWidget_output">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="rValue"/>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="lab_r">
-             <property name="text">
-              <string>r值：</string>
+             <property name="rowCount">
+              <number>5</number>
              </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lab_thickness">
-             <property name="text">
-              <string>厚度：</string>
+             <property name="columnCount">
+              <number>15</number>
              </property>
+             <attribute name="horizontalHeaderCascadingSectionResizes">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>65</number>
+             </attribute>
+             <attribute name="horizontalHeaderStretchLastSection">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderStretchLastSection">
+              <bool>false</bool>
+             </attribute>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
+             <column/>
             </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="thickness"/>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="1" column="3" colspan="3">
-         <widget class="QLabel" name="lab_image">
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -1961,212 +2074,131 @@ font: 9pt &quot;微软雅黑&quot;;</string>
           </property>
           <property name="minimumSize">
            <size>
-            <width>364</width>
-            <height>264</height>
+            <width>250</width>
+            <height>0</height>
            </size>
           </property>
-          <property name="maximumSize">
-           <size>
-            <width>364</width>
-            <height>264</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="resources.qrc">:/image/image/201511240842560.jpg</pixmap>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="btn_inference">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>推理分析</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="7">
-         <widget class="QTextEdit" name="textEdit_inference">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4" colspan="2">
-         <widget class="QComboBox" name="cbb_part">
           <item>
            <property name="text">
-            <string>B柱</string>
+            <string>横截面</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>A柱</string>
+            <string>纵轴线</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>左车门内板</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>右车门内板</string>
+            <string>局部特征</string>
            </property>
           </item>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QLabel" name="lab_part">
+        <item row="3" column="0" colspan="2">
+         <widget class="QWidget" name="widget" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text">
-           <string>零件类型：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="btn_case_search">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>案例检索</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2" rowspan="2">
-         <widget class="QGroupBox" name="gb_structureFeature">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>结构特征</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_16">
-           <item row="6" column="0">
-            <widget class="QLabel" name="lab_angle2">
+          <layout class="QGridLayout" name="gridLayout_8">
+           <item row="0" column="4">
+            <widget class="QPushButton" name="btn_inference">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
-              <string>圆角2：</string>
+              <string>推理分析</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
-            <widget class="QLineEdit" name="angle2"/>
-           </item>
-           <item row="7" column="1">
-            <widget class="QLineEdit" name="angle4"/>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="line3"/>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="lab_line3">
+           <item row="0" column="2">
+            <widget class="QPushButton" name="btn_case_search">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
-              <string>直线3：</string>
+              <string>案例检索</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="ASR"/>
+           <item row="0" column="3">
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>88</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lab_ASR">
-             <property name="text">
-              <string>弧直比：</string>
+           <item row="1" column="0" colspan="8">
+            <widget class="QTextEdit" name="textEdit_inference">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="lab_radius">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btn_weight">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
-              <string>半径：</string>
+              <string>特征权重</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="length"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="lab_line1">
-             <property name="text">
-              <string>直线1：</string>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="line1"/>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="radius"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="lab_length">
-             <property name="text">
-              <string>总长：</string>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
              </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="lab_angle4">
-             <property name="text">
-              <string>圆角4：</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>88</width>
+               <height>20</height>
+              </size>
              </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QLabel" name="lab_springback">
-             <property name="text">
-              <string>回弹：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="1">
-            <widget class="QLineEdit" name="springback"/>
+            </spacer>
            </item>
           </layout>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="btn_weight">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>特征权重</string>
-          </property>
+          <zorder>btn_case_search</zorder>
+          <zorder>btn_case_search</zorder>
+          <zorder>btn_inference</zorder>
+          <zorder>textEdit_inference</zorder>
+          <zorder>horizontalSpacer_5</zorder>
+          <zorder>btn_weight</zorder>
+          <zorder>horizontalSpacer_7</zorder>
          </widget>
         </item>
        </layout>
@@ -2415,7 +2447,6 @@ font: 9pt &quot;微软雅黑&quot;;</string>
   </action>
  </widget>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>userName</tabstop>
   <tabstop>password</tabstop>
   <tabstop>btn_login</tabstop>
@@ -2467,30 +2498,6 @@ font: 9pt &quot;微软雅黑&quot;;</string>
   <tabstop>checkBox_save_log</tabstop>
   <tabstop>btn_suspend_GA</tabstop>
   <tabstop>btn_startTrain_GA</tabstop>
-  <tabstop>PH</tabstop>
-  <tabstop>thickness</tabstop>
-  <tabstop>elongation</tabstop>
-  <tabstop>nValue</tabstop>
-  <tabstop>rValue</tabstop>
-  <tabstop>tensile_strength</tabstop>
-  <tabstop>yield_strength</tabstop>
-  <tabstop>velocity</tabstop>
-  <tabstop>pressure</tabstop>
-  <tabstop>friction</tabstop>
-  <tabstop>gap</tabstop>
-  <tabstop>drawBead</tabstop>
-  <tabstop>length</tabstop>
-  <tabstop>ASR</tabstop>
-  <tabstop>radius</tabstop>
-  <tabstop>line1</tabstop>
-  <tabstop>line3</tabstop>
-  <tabstop>angle2</tabstop>
-  <tabstop>angle4</tabstop>
-  <tabstop>springback</tabstop>
-  <tabstop>cbb_part</tabstop>
-  <tabstop>btn_case_search</tabstop>
-  <tabstop>btn_inference</tabstop>
-  <tabstop>btn_weight</tabstop>
   <tabstop>textEdit_inference</tabstop>
  </tabstops>
  <resources>
