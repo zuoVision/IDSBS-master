@@ -77,14 +77,14 @@ def bp_train(individual,net,dataPath,lr,epoch):
         # 这一行定义了用什么方式去减少 loss，学习率是 0.1
         train_step = tf.train.AdamOptimizer(lr).minimize(loss)
 
-        init = tf.initialize_all_variables()
-        sess = tf.Session()
+        init = tf.global_variables_initializer()
+        with tf.Session() as sess:
         # 上面定义的都没有运算，直到 sess.run 才会开始运算
-        sess.run(init)
-        # 迭代 1000 次学习，sess.run optimizer
-        for i in range(epoch):
-            sess.run(train_step, feed_dict={xs: x_data, ys: y_data})
-            error = sess.run(loss, feed_dict={xs: x_data, ys: y_data})
+            sess.run(init)
+            # 迭代 1000 次学习，sess.run optimizer
+            for i in range(epoch):
+                sess.run(train_step, feed_dict={xs: x_data, ys: y_data})
+                error = sess.run(loss, feed_dict={xs: x_data, ys: y_data})
 
     return 1/error
 

@@ -574,119 +574,123 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         scaler_y_test = preprocessing.MinMaxScaler()
         y_test_one = scaler_y_test.fit_transform(y_test)
 
-        # 权值　偏置
-        if self.w_b_path.text():
-            # 　读取最佳训练权值/偏置
-            w_b = open(self.w_b_path.text(),'r')
-            params = eval(w_b.read())
-        else:
-            params = self.random_w_b(net)
 
-        # model-神经网络结构
-        with tf.name_scope('input_layer') as scope:
-            global xs
-            xs = tf.placeholder(shape=[None, net[0]], dtype=tf.float32, name="X")
-            ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="Y")
+        tf.reset_default_graph()
+        graph = tf.Graph()
+        with graph.as_default() as g:
+            # 权值　偏置
+            if self.w_b_path.text():
+                # 　读取最佳训练权值/偏置
+                w_b = open(self.w_b_path.text(),'r')
+                params = eval(w_b.read())
+            else:
+                params = self.random_w_b(net)
 
-        keep_prob_s = tf.placeholder(dtype=tf.float32)
+            # model-神经网络结构
+            with tf.name_scope('input_layer') as scope:
+                global xs
+                xs = tf.placeholder(shape=[None, net[0]], dtype=tf.float32, name="X")
+                ys = tf.placeholder(shape=[None, net[-1]], dtype=tf.float32, name="Y")
 
-        with tf.name_scope('weights1') as scope:
-            w1 = tf.Variable(params['w1'],dtype=tf.float32)
+            keep_prob_s = tf.placeholder(dtype=tf.float32)
 
-        with tf.name_scope('biases1') as scope:
-            b1 = tf.Variable(params['b1'],dtype=tf.float32)
+            with tf.name_scope('weights1') as scope:
+                w1 = tf.Variable(params['w1'],dtype=tf.float32)
 
-        with tf.name_scope('weights2') as scope:
-            w2 = tf.Variable(params['w2'],dtype=tf.float32)
+            with tf.name_scope('biases1') as scope:
+                b1 = tf.Variable(params['b1'],dtype=tf.float32)
 
-        with tf.name_scope('biases2') as scope:
-            b2 = tf.Variable(params['b2'],dtype=tf.float32)
+            with tf.name_scope('weights2') as scope:
+                w2 = tf.Variable(params['w2'],dtype=tf.float32)
 
-        with tf.name_scope('hide_layer') as scope:
-            h1 = self.activation(tf.matmul(xs, w1) + b1,activation_function=aFuncs[0])
+            with tf.name_scope('biases2') as scope:
+                b2 = tf.Variable(params['b2'],dtype=tf.float32)
 
-        with tf.name_scope('OUT') as scope:
-            global pred
-            pred = self.activation(tf.matmul(h1, w2) + b2,activation_function=aFuncs[-1])
+            with tf.name_scope('hide_layer') as scope:
+                h1 = self.activation(tf.matmul(xs, w1) + b1,activation_function=aFuncs[0])
 
-        with tf.name_scope("loss") as scope:
-            loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - pred), reduction_indices=[1]))  # L2/mse均方误差
-            tf.summary.scalar("loss", tensor=loss)
+            with tf.name_scope('OUT') as scope:
+                global pred
+                pred = self.activation(tf.matmul(h1, w2) + b2,activation_function=aFuncs[-1])
 
-        with tf.name_scope('train_step') as scope:
-            train_step = self.optimizer(loss,lr,optimizer)
+            with tf.name_scope("loss") as scope:
+                loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - pred), reduction_indices=[1]))  # L2/mse均方误差
+                tf.summary.scalar("loss", tensor=loss)
 
-        # trian
-        init = tf.global_variables_initializer()  #初始化
-        with tf.Session() as sess:
-            saver = tf.train.Saver(tf.global_variables(), max_to_keep=15)
-            merged = tf.summary.merge_all()
-            writer = tf.summary.FileWriter(logdir="log", graph=sess.graph)  #写tensorbord
-            sess.run(init)
-            loss_ = []
-            for i in range(epoch + 1):
-                self.lcd_epoch.display(i)
-                QApplication.processEvents()  # 实时处理
-                time.sleep(0.01)  # 延迟
+            with tf.name_scope('train_step') as scope:
+                train_step = self.optimizer(loss,lr,optimizer)
 
-                feed_dict_train = {xs: X_train, ys: y_train, keep_prob_s: keep_prob}
-                feed_dict_test = {xs: X_test, keep_prob_s: keep_prob}
-                loss_value, _, weight1,weight2= sess.run([loss, train_step,w1,w2], feed_dict=feed_dict_train)
-
-                if i % int(self.HS_LossStep.value()) == 0:
-                    loss_.append(loss_value)
-                    self.canvas.setData(loss_[1:])
-                    self.plt1.plotItem.setTitle('Loss:%s' % loss_value)
-                    #　测　试
-                    prediction_value = sess.run(pred, feed_dict=feed_dict_test)
-
-                    global real_pre
-                    real_pre = scaler_y_test.inverse_transform(prediction_value)
-
-                    # 评价
-                    if self.cbb_lossFunc.currentIndex() == 0:
-                        evaluate = loss_value
-                    elif self.cbb_lossFunc.currentIndex() == 1:
-                        evaluate = loss_value ** 0.5
-                    elif self.cbb_lossFunc.currentIndex() == 2:
-                        evaluate = np.sum(np.absolute(prediction_value - y_test)) / len(y_test)
-                    elif self.cbb_lossFunc.currentIndex() == 3:
-                        evaluate = r2_score(y_test, prediction_value)
-                    else:
-                        evaluate = None
-
-                    status = '<font color=\'#FFFFFF\'> Epoch: [%.4d/%d], Loss:%g, evaluate:%.3f </font>' \
-                             % (i, epoch, loss_value, evaluate)
-                    self.textEdit_trainResult.append(status)
-                    self.pg_plot()
-
+            # trian
+            init = tf.global_variables_initializer()  #初始化
+            with tf.Session() as sess:
+                saver = tf.train.Saver(tf.global_variables(), max_to_keep=15)
+                merged = tf.summary.merge_all()
+                writer = tf.summary.FileWriter(logdir="log", graph=sess.graph)  #写tensorbord
+                sess.run(init)
+                loss_ = []
+                for i in range(epoch + 1):
+                    self.lcd_epoch.display(i)
                     QApplication.processEvents()  # 实时处理
-                    time.sleep(0.01)
-            # 输出最后一次训练完成后的测试值
-            # print('real pred:',type(real_pre))
-            # print('y test:',type(y_test))
-            #　计算平均绝对误差
-            # print(((abs(real_pre-y_test)/y_test)).mean())
-            # 保存最后一次训练的权重
-            global weight_record
-            weight_record = 'Weights_and_Biases/train_w_b/No_'+str(epoch)+'_train_weights.txt'
-            weights = {'w1':weight1.tolist(),'w2':weight2.tolist()} #将np.array格式的w1 w2转换为list
+                    time.sleep(0.01)  # 延迟
 
-            f = open(weight_record,'w')
-            f.write(str(weights))
-            f.close()
-            self.textEdit_trainResult.append('<font color=\'#ffaa00\'>训练完毕！</font>')
-            # 保存模型
-            if self.checkBox_saveModel.isChecked():
-                # saver.save(sess=sess, save_path="./model/model.ckpt", global_step=epoch)  # 保存模型
-                saver.save(sess,'./model/model.ckpt',global_step=epoch)
-                self.textEdit_trainResult.append('<font color=\'#ffaa00\'>模型已保存！</font>')
+                    feed_dict_train = {xs: X_train, ys: y_train, keep_prob_s: keep_prob}
+                    feed_dict_test = {xs: X_test, keep_prob_s: keep_prob}
+                    loss_value, _, weight1,weight2= sess.run([loss, train_step,w1,w2], feed_dict=feed_dict_train)
 
-            self.textEdit_trainResult.append('<font color=\'#e6db74\'>★</font>' * 24)
-            # 验证
-            # global prediction_value
-            # prediction_value = sess.run(pred, feed_dict=feed_dict_test)
-            # self.pg_plot()
+                    if i % int(self.HS_LossStep.value()) == 0:
+                        loss_.append(loss_value)
+                        self.canvas.setData(loss_[1:])
+                        self.plt1.plotItem.setTitle('Loss:%s' % loss_value)
+                        #　测　试
+                        prediction_value = sess.run(pred, feed_dict=feed_dict_test)
+
+                        global real_pre
+                        real_pre = scaler_y_test.inverse_transform(prediction_value)
+
+                        # 评价
+                        if self.cbb_lossFunc.currentIndex() == 0:
+                            evaluate = loss_value
+                        elif self.cbb_lossFunc.currentIndex() == 1:
+                            evaluate = loss_value ** 0.5
+                        elif self.cbb_lossFunc.currentIndex() == 2:
+                            evaluate = np.sum(np.absolute(prediction_value - y_test)) / len(y_test)
+                        elif self.cbb_lossFunc.currentIndex() == 3:
+                            evaluate = r2_score(y_test, prediction_value)
+                        else:
+                            evaluate = None
+
+                        status = '<font color=\'#FFFFFF\'> Epoch: [%.4d/%d], Loss:%g, evaluate:%.3f </font>' \
+                                 % (i, epoch, loss_value, evaluate)
+                        self.textEdit_trainResult.append(status)
+                        self.pg_plot()
+
+                        QApplication.processEvents()  # 实时处理
+                        time.sleep(0.01)
+                # 输出最后一次训练完成后的测试值
+                # print('real pred:',type(real_pre))
+                # print('y test:',type(y_test))
+                #　计算平均绝对误差
+                # print(((abs(real_pre-y_test)/y_test)).mean())
+                # 保存最后一次训练的权重
+                global weight_record
+                weight_record = 'Weights_and_Biases/train_w_b/No_'+str(epoch)+'_train_weights.txt'
+                weights = {'w1':weight1.tolist(),'w2':weight2.tolist()} #将np.array格式的w1 w2转换为list
+
+                f = open(weight_record,'w')
+                f.write(str(weights))
+                f.close()
+                self.textEdit_trainResult.append('<font color=\'#ffaa00\'>训练完毕！</font>')
+                # 保存模型
+                if self.checkBox_saveModel.isChecked():
+                    # saver.save(sess=sess, save_path="./model/model.ckpt", global_step=epoch)  # 保存模型
+                    saver.save(sess,'./model/model.ckpt',global_step=epoch)
+                    self.textEdit_trainResult.append('<font color=\'#ffaa00\'>模型已保存！</font>')
+
+                self.textEdit_trainResult.append('<font color=\'#e6db74\'>★</font>' * 24)
+                # 验证
+                # global prediction_value
+                # prediction_value = sess.run(pred, feed_dict=feed_dict_test)
+                # self.pg_plot()
 
 
 
@@ -809,7 +813,9 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.tableWidget_output.setHorizontalHeaderLabels(output_head)
 
     def on_case_search(self):
-        # try:
+        self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))  # 显示时间
+        self.textEdit_inference.append('<font color=\'#000000\'>正在检索...</font>')
+        try:
             row = self.tableWidget_input.rowCount()
             col = self.tableWidget_input.columnCount()
             search_params = []
@@ -864,9 +870,11 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             for i in range(cnt):
                 for j in range(col+1):
                     self.tableWidget_output.setItem(i,j,QTableWidgetItem(str(sim_items[i][j])))
-        # except Exception as e:
-        #     self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
-        #     QMessageBox.critical(self,'错误','%s'%e)
+            self.textEdit_inference.append('<font color=\'#000000\'>相似度大于90%%:</font>'
+                                           '<font color=\'#238e23\'> %s 例</font>'%cnt)
+        except Exception as e:
+            self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
+            QMessageBox.critical(self,'错误','%s'%e)
 
 
     def on_NN_Inference(self):
