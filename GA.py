@@ -85,8 +85,6 @@ def GA(dataPath,net,lr,epoch,POP_SIZE,GEN,CHROM,NUM,PC,PM,save_log=False):
     elapsed = time.time() - start
     print('time consume:%s:%s:%s' % (int(elapsed // 3600), int(elapsed // 60), int(elapsed % 60)))
 
-
-
     return (file,logPath)
 
 if __name__ == '__main__':

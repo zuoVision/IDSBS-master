@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1186</width>
+    <width>1242</width>
     <height>803</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -294,7 +294,7 @@
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(201, 201, 200);
+           <string notr="true">background-color: rgb(201, 201, 201);
 border-radius: 5px;</string>
           </property>
           <property name="frameShape">
@@ -320,7 +320,7 @@ border-radius: 5px;</string>
              </property>
              <property name="styleSheet">
               <string notr="true">border-radius: 5px;
-background-color: rgb(38, 39, 33);</string>
+background-color: rgb(255,255,255);</string>
              </property>
             </widget>
            </item>
@@ -334,7 +334,7 @@ background-color: rgb(38, 39, 33);</string>
              </property>
              <property name="styleSheet">
               <string notr="true">border-radius: 5px;
-background-color: rgb(38, 39, 33);</string>
+background-color: rgb(255, 255, 255);</string>
              </property>
             </widget>
            </item>
@@ -363,9 +363,8 @@ background-color: rgb(38, 39, 33);</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">
-color: rgb(0, 255, 0);
-background-color: rgb(60, 63, 65);
+                <string notr="true">color: rgb(0, 255, 0);
+background-color: rgb(65,65,65);
 </string>
                </property>
                <property name="frameShape">
@@ -416,9 +415,10 @@ background-color: rgb(60, 63, 65);
              <item row="0" column="0">
               <widget class="QLabel" name="lab_Epoch">
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 111, 0);
+                <string notr="true">color: rgb(15, 15, 15);
 background-color: rgb(201, 201, 200);
-font: 75 10pt &quot;微软雅黑&quot;;</string>
+font: 100 10pt &quot;微软雅黑&quot;;
+</string>
                </property>
                <property name="text">
                 <string>Epoch:</string>
@@ -448,7 +448,7 @@ font: 75 10pt &quot;微软雅黑&quot;;</string>
            <string notr="true">border-radius:5px;
 font: 10pt &quot;微软雅黑&quot;;
 color: rgb(240, 240, 240);
-background-color: rgb(60, 63, 65);
+background-color: rgb(201, 201, 201);
 </string>
           </property>
           <property name="frameShape">
@@ -620,12 +620,15 @@ font: 8pt &quot;微软雅黑&quot;;</string>
                <string>保存图片</string>
               </property>
               <property name="checked">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item row="25" column="0">
              <widget class="QCheckBox" name="checkBox_saveModel">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -646,7 +649,7 @@ font: 8pt &quot;微软雅黑&quot;;</string>
                <string>保存模型</string>
               </property>
               <property name="checked">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -1011,7 +1014,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
 font: 9pt &quot;微软雅黑&quot;;</string>
               </property>
               <property name="text">
-               <string>10</string>
+               <string>12</string>
               </property>
               <property name="frame">
                <bool>true</bool>
@@ -1252,12 +1255,22 @@ font: 9pt &quot;微软雅黑&quot;;</string>
               </item>
               <item>
                <property name="text">
+                <string>MRE</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
                 <string>MAE</string>
                </property>
               </item>
               <item>
                <property name="text">
                 <string>R-squared</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>None</string>
                </property>
               </item>
              </widget>
@@ -1490,8 +1503,8 @@ font: 9pt &quot;微软雅黑&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>202</width>
-             <height>509</height>
+             <width>210</width>
+             <height>583</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1539,7 +1552,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
                <bool>true</bool>
               </property>
               <property name="text">
-               <string>2</string>
+               <string>20</string>
               </property>
               <property name="placeholderText">
                <string/>
@@ -1725,6 +1738,9 @@ font: 9pt &quot;微软雅黑&quot;;</string>
               <property name="enabled">
                <bool>true</bool>
               </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
               <property name="placeholderText">
                <string/>
               </property>
@@ -1760,7 +1776,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
                <bool>true</bool>
               </property>
               <property name="text">
-               <string>2</string>
+               <string>20</string>
               </property>
               <property name="placeholderText">
                <string/>
@@ -1794,7 +1810,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
             <item row="5" column="1" colspan="2">
              <widget class="QLineEdit" name="GA_lr">
               <property name="text">
-               <string>0.01</string>
+               <string>0.1</string>
               </property>
               <property name="placeholderText">
                <string>0.1-0.001</string>
@@ -2193,7 +2209,6 @@ font: 9pt &quot;微软雅黑&quot;;</string>
            </item>
           </layout>
           <zorder>btn_case_search</zorder>
-          <zorder>btn_case_search</zorder>
           <zorder>btn_inference</zorder>
           <zorder>textEdit_inference</zorder>
           <zorder>horizontalSpacer_5</zorder>
@@ -2218,7 +2233,7 @@ font: 9pt &quot;微软雅黑&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1186</width>
+     <width>1242</width>
      <height>33</height>
     </rect>
    </property>

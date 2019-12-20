@@ -2,7 +2,7 @@ import os
 import numpy as np
 
 def write_w_b(best,net,Gen):
-    cwd = os.getcwd() + '/Weights_and_Biases/'
+    cwd = os.getcwd() + '/Weights_and_Biases/optimal_w_b/'
     name = 'most_fitted_weights_and_biases-%s.txt'%Gen
     if not os.path.exists(cwd):
         os.mkdir(cwd)

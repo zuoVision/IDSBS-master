@@ -89,19 +89,21 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.show()
         self.initConnect()
         self.initUi()
-        global prediction_value,loss_,y_test
+        # global prediction_value,loss_,y_test
 
     def initUi(self):
         self.showMaximized()
         # 表头
         # self.table_data.horizontalHeader().setStyleSheet('color:rgb(255,0,0)')
         # pyqtgraph
-        pg.setConfigOption('background','#262721')
-        pg.setConfigOption('foreground','#f0f0f0')
+        pg.setConfigOption('background', 'w')
+        pg.setConfigOption('foreground', 'k')
+        # pg.setConfigOption('background','#262721')
+        # pg.setConfigOption('foreground','#f0f0f0')
         # plt1
         self.p1 = QGridLayout(self.widget_plot_1)
         self.plt1 = pg.PlotWidget(title='Loss')
-        self.canvas = self.plt1.plot(pen=(255,133,0),name='Loss',clear=True)
+        self.canvas = self.plt1.plot(pen=(0,0,255),name='Loss',clear=True)
         self.plt1.setLabel(axis='left', text='Loss')
         self.plt1.setLabel(axis='bottom', text='Iter(hundred)')
         self.plt1.showGrid(x=True,y=True,alpha=0.5)
@@ -110,7 +112,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         # plt2
         self.p2 = QGridLayout(self.widget_plot_2)
         self.plt2 = pg.PlotWidget(title='Predict VS Actual')
-        self.plt2.setLabel(axis='left', text='Springback(%)')
+        self.plt2.setLabel(axis='left', text='Springback')
         self.plt2.setLabel(axis='bottom', text='No.')
         self.plt2.showGrid(x=True, y=True, alpha=0.5)
         self.p2.addWidget(self.plt2)
@@ -460,14 +462,14 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                           "dropout:":dropout,
                           "保存模型:":saveModel,
                           "保存图片:":saveImg}
-            param = ("<font color=\'#FFFFFF\'>网络结构:\t%s\n激活函数:\t%s\n学习率:\t%s\n优化器:\t%s"
+            param = ("<font color=\'#000000\'>网络结构:\t%s\n激活函数:\t%s\n学习率:\t%s\n优化器:\t%s"
                      "\n损失函数:\t%s\n训练周期:\t%s\ndropout:\t%s\n保存模型:\t%s\n保存图片:\t%s</font>"
                      %(net,aFuncs,lr,optimizer,lossFunc,trainEpoch,dropout,saveModel,saveImg))
-            self.textEdit_trainResult.append('%s'%param)
-            self.textEdit_trainResult.append('<font color=\'#e6db74\'>★</font>'*24)
+            self.textEdit_trainResult.append(param)
+            self.textEdit_trainResult.append('<font color=\'#003399\'>★★★★★★★★★★★★　开始训练　★★★★★★★★★★★★</font>')
             self.fit(net=net,aFuncs=aFuncs,lr=lr,optimizer=optimizer,epoch=trainEpoch,lossFunc=lossFunc)
         except Exception as e:
-            self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>Error : %s</font>' % e)
+            self.textEdit_trainResult.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
             QMessageBox.critical(self,'错误','%s'%e)
 
 
@@ -481,7 +483,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         # 读取数据
         df = pd.read_csv(str(fileName))
         # 显示数据摘要描述信息
-        # print(df.describe())
+        print(df.describe())
         # print(df.columns)
 
         # 数据准备
@@ -496,8 +498,8 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         self.y_data = df[:, inputLayer:]
 
 
-        self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>File Path : %s</font>'%str(fileName))
-        self.textEdit_trainResult.append('samples : ' + str(df.shape[0]))
+        self.textEdit_trainResult.append('<font color=\'#ff00ff\'>File Path : %s 【%ssamples】</font>'
+                                         %(str(fileName),str(df.shape[0])))
         self.inputLayer.setText(str(inputLayer))
 
     def on_load_w_b(self):
@@ -505,7 +507,7 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         if fileName == "":
             return
         self.w_b_path.setText(fileName)
-        self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>Weights and Biases Path : %s</font>'
+        self.textEdit_trainResult.append('<font color=\'#ff00ff\'>Weights and Biases Path : %s</font>'
                                          %str(fileName))
 
     def random_w_b(self,net):
@@ -560,10 +562,12 @@ class mainwindow(QMainWindow,Ui_MainWindow):
     def fit(self, net, lr=0.01, aFuncs=None, optimizer=0, epoch=1000, lossFunc=0, keep_prob=1):
         #加载数据
         # boston = load_boston()
-        global y_test
+        # global y_test
 
         test_rate = float(self.dsb_testRate.text())
         X_train,X_test,y_train,y_test = train_test_split(self.x_data,self.y_data,test_size=test_rate,random_state=0)
+        print('x train:', X_train[0])
+        print('y train:',y_train[0])
         # 归一化 [0,1]
         scaler_X_train = preprocessing.MinMaxScaler()
         X_train = scaler_X_train.fit_transform(X_train)
@@ -573,7 +577,8 @@ class mainwindow(QMainWindow,Ui_MainWindow):
         y_train = scaler_y_train.fit_transform(y_train)
         scaler_y_test = preprocessing.MinMaxScaler()
         y_test_one = scaler_y_test.fit_transform(y_test)
-
+        print('x train normalization:', X_train[0])
+        print('y train normalization:', y_train[0])
 
         tf.reset_default_graph()
         graph = tf.Graph()
@@ -635,81 +640,73 @@ class mainwindow(QMainWindow,Ui_MainWindow):
 
                     feed_dict_train = {xs: X_train, ys: y_train, keep_prob_s: keep_prob}
                     feed_dict_test = {xs: X_test, keep_prob_s: keep_prob}
-                    loss_value, _, weight1,weight2= sess.run([loss, train_step,w1,w2], feed_dict=feed_dict_train)
+                    loss_value, _= sess.run([loss, train_step], feed_dict=feed_dict_train)
 
                     if i % int(self.HS_LossStep.value()) == 0:
                         loss_.append(loss_value)
                         self.canvas.setData(loss_[1:])
                         self.plt1.plotItem.setTitle('Loss:%s' % loss_value)
                         #　测　试
-                        prediction_value = sess.run(pred, feed_dict=feed_dict_test)
+                        prediction_value = sess.run(pred, feed_dict=feed_dict_train)
 
-                        global real_pre
-                        real_pre = scaler_y_test.inverse_transform(prediction_value)
+                        pred_real = scaler_y_test.inverse_transform(prediction_value)
+
+                        y_real = scaler_y_train.inverse_transform(y_train)
+
+                        self.pg_plot(y_real,pred_real)
+                        QApplication.processEvents()  # 实时处理
+                        time.sleep(0.01)
 
                         # 评价
                         if self.cbb_lossFunc.currentIndex() == 0:
-                            evaluate = loss_value
+                            evaluate = np.mean(np.sum(np.square(y_real-pred_real)))
                         elif self.cbb_lossFunc.currentIndex() == 1:
-                            evaluate = loss_value ** 0.5
+                            evaluate = np.sqrt(np.mean(np.sum(np.square(y_real-pred_real))))
                         elif self.cbb_lossFunc.currentIndex() == 2:
-                            evaluate = np.sum(np.absolute(prediction_value - y_test)) / len(y_test)
+                            evaluate = np.mean(np.sum(np.abs(y_real-pred_real)/y_real))
                         elif self.cbb_lossFunc.currentIndex() == 3:
-                            evaluate = r2_score(y_test, prediction_value)
+                            evaluate = np.mean(np.sum(np.absolute(pred_real - y_real)))
+                        elif self.cbb_lossFunc.currentIndex() == 4:
+                            evaluate = r2_score(y_real, pred_real)
                         else:
                             evaluate = None
-
-                        status = '<font color=\'#FFFFFF\'> Epoch: [%.4d/%d], Loss:%g, evaluate:%.3f </font>' \
+                        status = '<font color=\'#000000\'> Epoch: [%.4d/%d]\t Loss:%g\t Evaluate:%.3f </font>' \
                                  % (i, epoch, loss_value, evaluate)
                         self.textEdit_trainResult.append(status)
-                        self.pg_plot()
 
-                        QApplication.processEvents()  # 实时处理
-                        time.sleep(0.01)
-                # 输出最后一次训练完成后的测试值
-                # print('real pred:',type(real_pre))
-                # print('y test:',type(y_test))
-                #　计算平均绝对误差
-                # print(((abs(real_pre-y_test)/y_test)).mean())
-                # 保存最后一次训练的权重
-                global weight_record
-                weight_record = 'Weights_and_Biases/train_w_b/No_'+str(epoch)+'_train_weights.txt'
-                weights = {'w1':weight1.tolist(),'w2':weight2.tolist()} #将np.array格式的w1 w2转换为list
-
-                f = open(weight_record,'w')
-                f.write(str(weights))
-                f.close()
-                self.textEdit_trainResult.append('<font color=\'#ffaa00\'>训练完毕！</font>')
+                    # 保存最后一次训练的权重
+                    if i == epoch:
+                        weight1,weight2 = sess.run([w1,w2],feed_dict_train)
+                        global weight_record
+                        weight_record = 'Weights_and_Biases/train_w_b/epoch-'+str(epoch)+'_train_weights.txt'
+                        weights = {'w1':weight1.tolist(),'w2':weight2.tolist()} #将np.array格式的w1 w2转换为list
+                        f = open(weight_record,'w')
+                        f.write(str(weights))
+                        f.close()
                 # 保存模型
                 if self.checkBox_saveModel.isChecked():
                     # saver.save(sess=sess, save_path="./model/model.ckpt", global_step=epoch)  # 保存模型
                     saver.save(sess,'./model/model.ckpt',global_step=epoch)
-                    self.textEdit_trainResult.append('<font color=\'#ffaa00\'>模型已保存！</font>')
+                    self.textEdit_trainResult.append('<font color=\'#006600\'>模型已保存！</font>')
 
-                self.textEdit_trainResult.append('<font color=\'#e6db74\'>★</font>' * 24)
-                # 验证
-                # global prediction_value
-                # prediction_value = sess.run(pred, feed_dict=feed_dict_test)
-                # self.pg_plot()
+                self.textEdit_trainResult.append('<font color=\'#003399\'>★★★★★★★★★★★★　训练完成　★★★★★★★★★★★★</font>')
 
-
-
-    def pg_plot(self):
-        global y_test,real_pre
+    def pg_plot(self,y_real,pred_real):
+        # global y_test,pred_real
         # self.plt2.plotItem.setTitle()
-        self.plt2.addLegend(size=(80, 50), offset=(-30, 30))
+        # self.plt2.addLegend(size=(80, 50), offset=(-30, 30))
         # self.plt2.plot(prediction_value[:,0],pen='r',symbol='star', symbolBrush=(237,177,32),name='pred',clear=True)
         # self.plt2.plot(y_test[:,0],pen='g',symbol='h',symbolBrush=(217,83,25),name='real')
 
-        self.plt2.plot(real_pre[:, 0], pen='g',  name='pred', clear=True)
-        self.plt2.plot(y_test[:, 0],pen=None,symbol='star',symbolBrush=(0,0,255),name='real')
+        self.plt2.plot(pred_real[:, 0], pen='g',  name='pred', clear=True)
+        self.plt2.plot(y_real[:, 0],pen=None,symbol='star',symbolBrush=(0,0,255),name='real')
 
     def on_load_GA_data(self):
         fileName, _ = QFileDialog.getOpenFileName(self, 'open file', './data', '*.csv')
         if fileName == "":
             return
         self.data_path_GA.setText(fileName)
-        self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>File Path : %s</font>'%fileName)
+        self.textEdit_trainResult.append('<font color=\'#ff00ff\'>File Path : %s</font>'%fileName)
 
     def on_train_GA(self):
         try:
@@ -728,20 +725,20 @@ class mainwindow(QMainWindow,Ui_MainWindow):
             epoch = int(self.GA_epoch.text())
             save_log = self.checkBox_save_log.isChecked()
             self.GA_NUM.setText(str(NUM))
-            info = '<font color=\'#FFFFFF\'>网络结构：%s,优化参数：%s,遗传代数：%s,' \
+            info = '<font color=\'#000000\'>网络结构：%s,优化参数：%s,遗传代数：%s,' \
                    '种群规模：%s,染色体长度：%s,交叉概率：%s,' \
                    '变异概率：%s,学习率：%s,训练周期：%s</font>' \
                    %(net,NUM,GEN,POP_SIZE,CHROM,PC,PM,lr,epoch)
             self.textEdit_trainResult.append(info)
-            self.textEdit_trainResult.append('Evolving...')
+            self.textEdit_trainResult.append('<font color=\'#000000\'>Evolving...</font>')
             # GA 训练并返回权值/偏置文件保存位置
             w_b_file,logPath= GA(dataPath,net,lr,epoch,POP_SIZE,GEN,CHROM,NUM,PC,PM,save_log)
-            self.textEdit_trainResult.append('Evolved!')
-            self.textEdit_trainResult.append('<font color=\'#ffaa00\'>最优权值/偏置：：%s</font>'%w_b_file)
+            self.textEdit_trainResult.append('<font color=\'#000000\'>Evolved!</font>')
+            self.textEdit_trainResult.append('<font color=\'#006600\'>最优权值/偏置：：%s</font>'%w_b_file)
             if save_log==True:
-                self.textEdit_trainResult.append('<font color=\'#ffaa00\'>详细信息请查看：%s</font>'%logPath)
+                self.textEdit_trainResult.append('<font color=\'#006600\'>详细信息请查看：%s</font>'%logPath)
         except Exception as e:
-            self.textEdit_trainResult.append('<font color=\'#ff6ec7\'>Error : %s</font>' % e)
+            self.textEdit_trainResult.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
             QMessageBox.critical(self, '错误', '%s' % e)
 
 
@@ -879,13 +876,12 @@ class mainwindow(QMainWindow,Ui_MainWindow):
 
     def on_NN_Inference(self):
         try:
-            # n = int(self.velocity.text())
-            # # self.textEdit_inference.append('预测数据：%s'%n)
-            n = 56
-            x_test = self.x_data[n].reshape(-1,int(self.inputLayer.text()))
-            # print('x_test:',x_test)
-            y_real = self.y_data[n]
-            # print('y_real:',y_real)
+            # n = 56
+            # x_test = self.x_data[n].reshape(-1,int(self.inputLayer.text()))
+            # y_real = self.y_data[n]
+            x_test = np.array([0.51,0.51, 0.01, 0.76,1.01,  0.36,0.01,  0.01,  0.51, 1.01,  0.26,1.01, 0.01]).reshape([1,-1])
+            y_real = np.array([0.44664553]).reshape([1,-1])
+
         except Exception as e:
             self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
             QMessageBox.critical(self,'错误','%s'%e)
@@ -910,31 +906,29 @@ class mainwindow(QMainWindow,Ui_MainWindow):
                 pred = graph.get_tensor_by_name('OUT/add:0')
                 # 预测
                 pred_value = sess.run(pred, feed_dict={xs:x_test})
-                # print('pre_value:',pred_value)
-                # print('real y:',y_real)
 
             # 零件类型预测
-            prediction = 0
-            k=0
-            for i in pred_value:
-                for j in range(len(i)):
-                    if i[j]>i[k]:
-                        k=j
-                        prediction = j
-            # print(prediction)
-            if prediction == 0:
-                pred_label = 'A柱上'
-            elif prediction == 1:
-                pred_label = 'A柱下'
-            elif prediction  == 2:
-                pred_label = 'B柱'
-            else:
-                pred_label = 'None'
+            # prediction = 0
+            # k=0
+            # for i in pred_value:
+            #     for j in range(len(i)):
+            #         if i[j]>i[k]:
+            #             k=j
+            #             prediction = j
+            # # print(prediction)
+            # if prediction == 0:
+            #     pred_label = 'A柱上'
+            # elif prediction == 1:
+            #     pred_label = 'A柱下'
+            # elif prediction  == 2:
+            #     pred_label = 'B柱'
+            # else:
+            #     pred_label = 'None'
             self.textEdit_inference.append(str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))) #显示时间
             self.textEdit_inference.append('<font color=\'#000000\'>预测模型：%s</font>' % model_file)
             # self.textEdit_inference.append('<font color=\'#000000\'>真实值：%s</font>'%str(y_real))
-            self.textEdit_inference.append('<font color=\'#238e23\'>推荐成形零件类型：%s</font>'%pred_label)
-            self.textEdit_inference.append(' ')
+            # self.textEdit_inference.append('<font color=\'#238e23\'>推荐成形零件类型：%s</font>'%pred_label)
+
         except Exception as e:
             self.textEdit_inference.append('<font color=\'#ff0000\'>Error : %s</font>' % e)
             QMessageBox.critical(self,'错误','%s'%e)
